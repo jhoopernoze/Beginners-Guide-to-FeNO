@@ -1237,6 +1237,141 @@ kbd{font:600 12px var(--f-mono);padding:1px 6px;border-radius:5px;border:1px sol
 .gq-q.has-thumb{overflow:hidden}
 @media (max-width:560px){.g-thumb.big{width:90px;height:45px}}
 
+/* ================= v7 · Breath-hold simulator (namespaced: .sm / sm-*) =================
+   Canvases are dark instrument panels in both themes; the surrounding UI follows the guide's tokens.
+   Monitor colours follow bedside convention: SpO2 cyan, CO2 yellow, heart rate green. */
+:root{--sm-adr:#a35f00;--sm-imm:#0d8a74;--sm-spo2:#0a7fa0;--sm-co2:#8f6c00;--sm-hr:#17864a;--sm-ph:#5a45c4;--sm-cbf:#b8305f;--sm-urge:#c6461f;--sm-ok:#17864a;--sm-warn:#9a6200;--sm-crit:#c3263d;--sm-ink-on:#04161c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sm-adr:#FFB547;--sm-imm:#3FE0C5;--sm-spo2:#3CCFEA;--sm-co2:#F2CF4A;--sm-hr:#5BE08E;--sm-ph:#B7A2FF;--sm-cbf:#FF93B6;--sm-urge:#FF7B52;--sm-ok:#5BE08E;--sm-warn:#F5B83D;--sm-crit:#FF4B63}}
+:root[data-theme="dark"]{--sm-adr:#FFB547;--sm-imm:#3FE0C5;--sm-spo2:#3CCFEA;--sm-co2:#F2CF4A;--sm-hr:#5BE08E;--sm-ph:#B7A2FF;--sm-cbf:#FF93B6;--sm-urge:#FF7B52;--sm-ok:#5BE08E;--sm-warn:#F5B83D;--sm-crit:#FF4B63}
+.sm{padding-top:clamp(26px,4vw,52px);padding-bottom:40px}
+.sm-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 32px;align-items:end}
+.sm-hero .track,.sm-hero h1,.sm-hero .lede{grid-column:1}
+.sm-safety{grid-column:2;grid-row:1/span 3;align-self:end;margin:0;max-width:34ch;padding:12px 14px;border:1px solid color-mix(in srgb,var(--sm-crit) 45%,transparent);border-radius:12px;background:color-mix(in srgb,var(--sm-crit) 8%,transparent);font-size:14px;color:var(--ink-2)}
+.sm-safety b{color:var(--ink)}
+@media (max-width:860px){.sm-hero{grid-template-columns:minmax(0,1fr)}.sm-safety{grid-column:1;grid-row:auto;max-width:none}}
+
+.sm-deck{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-end;padding-block:22px 16px;border-top:1px solid var(--rule);margin-top:22px}
+.sm-grp{display:grid;gap:7px;min-width:0;flex:0 1 auto}
+.sm-lbl{font:700 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.sm-seg{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border:1px solid var(--rule-2);border-radius:11px;background:var(--surface-2);width:max-content;max-width:100%}
+.sm-seg button{border:0;background:transparent;padding:8px 11px;border-radius:8px;cursor:pointer;font:600 14px var(--f-body);color:var(--ink-2);white-space:nowrap}
+.sm-seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--rule-2),0 1px 3px rgba(0,0,0,.12)}
+.sm-seg button:disabled{opacity:.45;cursor:not-allowed}
+.sm-limit{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sm-limit input{width:150px;accent-color:var(--sm-urge)}
+.sm-limit output{font:700 15px var(--f-mono);color:var(--sm-urge);min-width:56px}
+.sm-chip{border:1px solid var(--rule-2);background:transparent;border-radius:999px;padding:5px 11px;font:500 13px var(--f-body);color:var(--ink-2);cursor:pointer}
+.sm-chip:hover{color:var(--ink);border-color:var(--ink-2)}
+.sm-chip[aria-pressed="true"]{background:var(--surface-2);color:var(--ink);border-color:var(--ink-2)}
+.sm-tog{display:flex;gap:9px;align-items:center;cursor:pointer;font:600 14px var(--f-body);color:var(--ink-2);padding:9px 12px;border:1px solid var(--rule-2);border-radius:11px;background:var(--surface-2)}
+.sm-tog input{accent-color:var(--sm-spo2);width:17px;height:17px}
+.sm-run{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-left:auto}
+.sm-btn{border:1px solid var(--rule-2);background:var(--surface);border-radius:11px;padding:10px 16px;font:700 15px var(--f-body);color:var(--ink);cursor:pointer}
+.sm-btn:hover{border-color:var(--ink-2)}
+.sm-btn.go{background:var(--sm-spo2);border-color:var(--sm-spo2);color:#fff}
+.sm-btn.hot{background:var(--sm-urge);border-color:var(--sm-urge);color:#fff}
+.sm-btn:disabled{opacity:.4;cursor:not-allowed}
+@media (max-width:1180px){.sm-run{margin-left:0}}
+@media (max-width:560px){.sm-grp{flex:1 1 100%}.sm-seg{width:auto}.sm-seg button{white-space:normal;flex:1 1 auto;text-align:center}}
+
+.sm-predict{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:12px 16px;border:1px dashed var(--rule-2);border-radius:14px;margin-bottom:18px;font-size:15px}
+.sm-predict .ans{flex-basis:100%;margin:0;color:var(--ink-2)}
+.sm-predict .ans:empty{display:none}
+
+.sm-stage{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr);gap:18px;align-items:start}
+@media (max-width:980px){.sm-stage{grid-template-columns:minmax(0,1fr)}}
+.sm-scene{position:relative;border:1px solid var(--rule);border-radius:18px;background:radial-gradient(120% 90% at 55% 30%,#10222e 0%,#081119 70%);overflow:hidden}
+.sm-scene canvas{display:block;width:100%;height:auto;aspect-ratio:640/680}
+.sm-banner{position:absolute;right:14px;bottom:12px;pointer-events:none}
+.sm-phase{font:700 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:rgba(7,14,20,.8);border:1px solid rgba(150,190,210,.26);color:#E4EEF1}
+.sm-phase i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:#71889E}
+.sm-phase.hold i{background:#FF7B52;box-shadow:0 0 10px #FF7B52}
+.sm-phase.breathe i{background:#5BE08E}
+
+.sm-mon{display:grid;gap:10px;padding:14px;border:1px solid var(--rule);border-radius:18px;background:var(--surface);box-shadow:var(--shadow)}
+.sm-clock{display:flex;justify-content:space-between;align-items:end;gap:12px;padding:4px 4px 10px;border-bottom:1px solid var(--rule)}
+.sm-clock .t{font:800 clamp(54px,6.4vw,72px)/.9 var(--f-display);font-variant-numeric:tabular-nums;letter-spacing:-.01em;color:var(--ink)}
+.sm-clock .s{text-align:right;color:var(--ink-2);font-size:13.5px;max-width:22ch}
+.sm-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.sm-tile{padding:10px 12px 10px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--rule);display:grid;gap:2px;position:relative;min-width:0}
+.sm-tile::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:3px;background:var(--c,var(--muted))}
+.sm-tile .k{font:700 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
+.sm-tile .v{font:800 32px/1.05 var(--f-display);font-variant-numeric:tabular-nums;color:var(--c)}
+.sm-tile .v small{font:600 13px var(--f-body);color:var(--ink-2);margin-left:4px}
+.sm-tile .n{font-size:12.5px;color:var(--ink-2);min-height:1.5em}
+.sm-pill{font:700 10.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:color-mix(in srgb,var(--sm-ok) 16%,transparent);color:var(--sm-ok)}
+.sm-pill.warn{background:color-mix(in srgb,var(--sm-warn) 16%,transparent);color:var(--sm-warn)}
+.sm-pill.crit{background:color-mix(in srgb,var(--sm-crit) 16%,transparent);color:var(--sm-crit)}
+.sm-urge{padding:10px 12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--rule)}
+.sm-urge .k{display:flex;justify-content:space-between;font:700 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sm-urge .k b{color:var(--sm-urge);font-size:13px}
+.sm-bar{position:relative;height:16px;margin-top:8px;border-radius:8px;background:color-mix(in srgb,var(--ink) 8%,transparent);overflow:hidden}
+.sm-bar span{position:absolute;top:0;bottom:0}
+.sm-bar i{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.sm-ukey{display:flex;gap:12px;flex-wrap:wrap;margin-top:7px;font-size:12px;color:var(--ink-2)}
+.sm-ukey i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+.sm-zooms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+@media (max-width:980px){.sm-zooms{grid-template-columns:minmax(0,1fr)}}
+.sm-zoom{border:1px solid var(--rule);border-radius:16px;background:var(--surface);overflow:hidden;display:grid;grid-template-rows:auto auto 1fr;box-shadow:var(--shadow)}
+.sm-zoom h3{font:800 18px/1.1 var(--f-display);padding:12px 14px 9px;display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0}
+.sm-zoom h3 .sm-chip{font-size:12px;padding:3px 10px}
+.sm-zoom h3 span{font:600 11px var(--f-mono);letter-spacing:.06em;color:var(--muted)}
+.sm-zoom canvas{display:block;width:100%;height:auto;aspect-ratio:360/220;background:#081219}
+.sm-zoom p{margin:0;padding:10px 14px 14px;font-size:14px;color:var(--ink-2);min-height:4.6em}
+.sm-zoom p b{color:var(--ink)}
+
+.sm-trace{margin-top:18px;border:1px solid var(--rule);border-radius:16px;background:var(--surface);padding:12px 14px 10px;box-shadow:var(--shadow)}
+.sm-trace-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sm-trace h2,.sm-card h2{font:800 22px/1.1 var(--f-display);margin:0}
+.sm-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2)}
+.sm-legend i{display:inline-block;width:16px;height:3px;border-radius:2px;margin-right:6px;vertical-align:3px}
+.sm-trace canvas{display:block;width:100%;height:auto;aspect-ratio:1280/470;margin-top:10px;border-radius:10px;background:#0b151d}
+@media (max-width:700px){.sm-trace canvas{aspect-ratio:520/470}}
+.sm-ghost{margin:6px 0 0;font-size:13px;color:var(--muted)}
+
+.sm-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:14px;margin-top:18px}
+@media (max-width:900px){.sm-pair{grid-template-columns:minmax(0,1fr)}}
+.sm-card{border:1px solid var(--rule);border-radius:16px;background:var(--surface);padding:14px 16px;box-shadow:var(--shadow)}
+.sm-card h2{margin-bottom:10px}
+.sm-breath{display:grid;gap:10px}
+.sm-brow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:baseline;padding-bottom:9px;border-bottom:1px solid var(--rule)}
+.sm-brow:last-child{border-bottom:0;padding-bottom:0}
+.sm-brow .v{font:800 24px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.sm-brow .d{grid-column:1/-1;font-size:13.5px;color:var(--ink-2)}
+.sm-meter{grid-column:1/-1;height:6px;border-radius:4px;background:color-mix(in srgb,var(--ink) 8%,transparent);overflow:hidden}
+.sm-meter span{display:block;height:100%;border-radius:4px}
+.sm-log{list-style:none;margin:0;padding:0;display:grid;gap:7px;max-height:320px;overflow:auto}
+.sm-log li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px;font-size:14px;color:var(--ink-2)}
+.sm-log li time{font:700 12.5px var(--f-mono);color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.sm-log li b{color:var(--ink)}
+.sm-log li.hot time{color:var(--sm-urge)}
+.sm-log li.crit time{color:var(--sm-crit)}
+.sm-log .empty{display:block;color:var(--muted)}
+
+.sm-notes{margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.sm-notes{grid-template-columns:minmax(0,1fr)}}
+.sm-notes h3{font:800 18px/1.15 var(--f-display);margin:0 0 8px}
+.sm-notes p,.sm-notes li{font-size:14.5px;color:var(--ink-2)}
+.sm-notes p{margin:0 0 8px}
+.sm-notes ul{margin:0;padding-left:18px;display:grid;gap:5px}
+.sm-notes .sm-card{display:grid;align-content:start}
+.paths.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:980px){.paths.three{grid-template-columns:minmax(0,1fr)}}
+.track.sim .pill-t{background:color-mix(in srgb,var(--sm-urge) 14%,transparent);color:var(--sm-urge)}
+
+/* nav: the Simulator link gives way when space is short (it stays on the home page, the Games hub and the footer) */
+@media (max-width:900px){.nl.simnav{display:none}}
+@media (max-width:1400px){.navlinks:has(.chbtn.on) .nl.simnav{display:none}}
+.gsim{margin:10px 0 0}.gsim a{font:600 14.5px var(--f-body);color:var(--sm-urge);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--sm-urge) 40%,transparent)}
+.gsim a:hover{border-bottom-color:currentColor}
+
+.sm-wide{grid-column:1/-1}
+.sm-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 24px}
+@media (max-width:760px){.sm-two{grid-template-columns:minmax(0,1fr)}}
+.sm-notes h4{font:700 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:4px 0 8px}
+.sm-lens{margin:12px 0 0!important;padding-top:10px;border-top:1px dashed var(--rule-2);font-size:13.5px}
+
 </style>
 
 <nav class="topbar" aria-label="Guide">
@@ -1248,6 +1383,7 @@ kbd{font:600 12px var(--f-mono);padding:1px 6px;border-radius:5px;border:1px sol
         <button class="nl chbtn" type="button" id="chBtn" aria-haspopup="true" aria-expanded="false" aria-controls="chPanel"><span class="chb-s">Chapters</span><span class="chb-f" hidden></span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
       <a class="nl gm" href="#/games" data-v="games">Games</a>
+      <a class="nl wide simnav" href="#/sim" data-v="sim">Simulator</a>
       <a class="nl wide" href="#/glossary" data-v="glossary">Glossary</a>
       <a class="nl wide" href="#/sources" data-v="sources">Sources</a>
     </div>
@@ -1290,9 +1426,10 @@ kbd{font:600 12px var(--f-mono);padding:1px 6px;border-radius:5px;border:1px sol
 </header>
 
 
-<div class="wrap paths">
+<div class="wrap paths three">
   <a class="path-card" href="#e-why"><p class="track"><span class="pill-t">Essentials · this page</span></p><h3>Start here: how your lungs work, and why one gas matters</h3><p>Six short sections with realistic illustrations and hands-on interactions. No science background needed, about 20 minutes.</p></a>
   <a class="path-card deep" href="#hub"><p class="track deep"><span class="pill-t">Deep dive · 7 chapters</span></p><h3>Go deeper, one part at a time</h3><p>A chapter for each part: airways, lining, air sacs, the molecule, the test, reading results, and the rest of the breath. Everything our reference library says, built up from plain English.</p></a>
+  <a class="path-card sim" href="#/sim"><p class="track sim"><span class="pill-t">Simulator · new</span></p><h3>Hold your breath, and watch the body respond</h3><p>A breath-hold simulator: lungs, blood, heart and brain, second by second. Compare normal breathing, Wim Hof–style fast breathing and a trained freediver.</p></a>
 </div>
 <!-- ===================== ESSENTIALS ===================== -->
 <section class="chapter wrap ess" id="e-why">
@@ -2461,10 +2598,149 @@ kbd{font:600 12px var(--f-mono);padding:1px 6px;border-radius:5px;border:1px sol
       <div><b>Three levels</b><span><i class="d lv-beg"></i>Beginner: the basics. <i class="d lv-hard"></i>Hard: essentials and FeNO variables. <i class="d lv-exp"></i>Expert: the fine detail.</span></div>
     </div>
     <p class="gprog" id="gProg"></p>
+    <p class="gsim"><a href="#/sim">New: the breath-hold simulator. Hold your breath and watch the lungs, blood, heart and brain respond →</a></p>
   </header>
   <div id="gLevels"></div>
 </section>
 <section class="wrap gplay" id="gPlay" hidden></section>
+</div>
+<div class="view" data-view="sim" hidden>
+<section class="wrap sm" id="smRoot" aria-labelledby="smTitle">
+  <header class="ghero sm-hero">
+    <p class="track sim"><span class="pill-t">Simulator · breath-hold</span></p>
+    <h1 id="smTitle">Hold your breath</h1>
+    <p class="lede">Stop breathing in a simulated body and watch what happens second by second in the lungs, blood, heart and brain. Try Wim Hof–style fast breathing first, or switch to a trained freediver, and compare the runs.</p>
+    <p class="sm-safety"><b>Simulation only.</b> Never practise breath holds in or near water, or after fast breathing while standing or driving. Fainting can come with no warning.</p>
+  </header>
+
+  <div class="sm-deck" aria-label="Set up the hold">
+    <div class="sm-grp"><span class="sm-lbl" id="smLPre">1 · Before you hold</span>
+      <div class="sm-seg" role="group" aria-labelledby="smLPre" data-k="pre">
+        <button type="button" data-v="normal" aria-pressed="true">Breathe normally</button>
+        <button type="button" data-v="deep" aria-pressed="false">30 fast, deep breaths</button>
+        <button type="button" data-v="oxygen" aria-pressed="false">Pure oxygen</button>
+      </div></div>
+    <div class="sm-grp"><span class="sm-lbl" id="smLLung">2 · Lungs when you stop</span>
+      <div class="sm-seg" role="group" aria-labelledby="smLLung" data-k="lungs">
+        <button type="button" data-v="full" aria-pressed="true">Full breath in</button>
+        <button type="button" data-v="normal" aria-pressed="false">Normal breath</button>
+        <button type="button" data-v="empty" aria-pressed="false">Breathed out</button>
+      </div></div>
+    <div class="sm-grp"><span class="sm-lbl" id="smLWho">3 · Who's holding</span>
+      <div class="sm-seg" role="group" aria-labelledby="smLWho" data-k="who">
+        <button type="button" data-v="beg" aria-pressed="true">Beginner</button>
+        <button type="button" data-v="prac" aria-pressed="false">Regular practice</button>
+        <button type="button" data-v="elite" aria-pressed="false">Elite freediver</button>
+      </div></div>
+    <div class="sm-grp"><label class="sm-lbl" for="smLim">Gives in when the urge reaches</label>
+      <div class="sm-limit"><input type="range" id="smLim" min="60" max="320" step="10" value="100"><output id="smLimOut" for="smLim">100%</output><button type="button" class="sm-chip" id="smNever">Never give in</button></div></div>
+    <div class="sm-grp"><span class="sm-lbl">4 · Dive response</span>
+      <label class="sm-tog"><input type="checkbox" id="smCold"> Face in cold water</label></div>
+    <div class="sm-run">
+      <span class="sm-lbl" id="smLSpd">Speed</span><div class="sm-seg" role="group" aria-labelledby="smLSpd" data-k="speed">
+        <button type="button" data-v="1" aria-pressed="false">1×</button><button type="button" data-v="4" aria-pressed="true">4×</button><button type="button" data-v="12" aria-pressed="false">12×</button></div>
+      <button type="button" class="sm-btn go" id="smGo">Start</button>
+      <button type="button" class="sm-btn hot" id="smBreathe" disabled>Breathe now</button>
+      <button type="button" class="sm-btn" id="smReset">Reset</button>
+    </div>
+  </div>
+
+  <div class="sm-predict" role="group" aria-label="Predict first">
+    <span><b>Predict first:</b> with these settings, what makes you stop?</span>
+    <button type="button" class="sm-chip" data-p="patience" aria-pressed="false">The urge wins: I give in</button>
+    <button type="button" class="sm-chip" data-p="oxygen" aria-pressed="false">Oxygen runs out: I black out</button>
+    <p class="ans" id="smAns"></p>
+  </div>
+
+  <div class="sm-stage">
+    <div class="sm-scene">
+      <canvas id="smBody" role="img" aria-label="A person in profile with the brain, carotid artery, lungs, heart and diaphragm drawn inside. Colours and motion follow the simulation."></canvas>
+      <div class="sm-banner"><span class="sm-phase" id="smPhase"><i></i>Resting</span></div>
+    </div>
+    <aside class="sm-mon" aria-label="Live readings">
+      <div class="sm-clock"><div><div class="sm-lbl">Breath held</div><div class="t" id="smClock">0:00</div></div><div class="s" id="smClockNote">Press Start. The body breathes normally until then.</div></div>
+      <div class="sm-tiles">
+        <div class="sm-tile" style="--c:var(--sm-spo2)"><div class="k">Blood oxygen <span>SpO₂</span></div><div class="v" id="smVSp">98<small>%</small></div><div class="n" id="smNSp">fingertip, ~14 s behind</div></div>
+        <div class="sm-tile" style="--c:var(--sm-co2)"><div class="k">Blood CO₂ <span>PaCO₂</span></div><div class="v" id="smVC">40<small>mmHg</small></div><div class="n" id="smNC">normal</div></div>
+        <div class="sm-tile" style="--c:var(--sm-ph)"><div class="k">Blood acidity <span>pH</span></div><div class="v" id="smVPh">7.40</div><div class="n" id="smNPh">normal</div></div>
+        <div class="sm-tile" style="--c:var(--sm-hr)"><div class="k">Heart rate <span>bpm</span></div><div class="v" id="smVHr">70</div><div class="n" id="smNHr">resting</div></div>
+        <div class="sm-tile" style="--c:var(--sm-cbf)"><div class="k">Brain blood flow</div><div class="v" id="smVCbf">100<small>%</small></div><div class="n" id="smNCbf">normal</div></div>
+        <div class="sm-tile" style="--c:var(--ink-2)"><div class="k">Brain oxygen <span id="smPBrain" class="sm-pill">Clear</span></div><div class="v" id="smVBr">35<small>mmHg</small></div><div class="n">O₂ left in blood leaving the brain</div></div>
+        <div class="sm-tile" style="--c:var(--sm-adr)"><div class="k">Adrenaline <span>× resting</span></div><div class="v" id="smVA">×1.0</div><div class="n" id="smNA">resting level</div></div>
+        <div class="sm-tile" style="--c:var(--sm-imm)"><div class="k">Immune alarm <span>if challenged</span></div><div class="v" id="smVImm">100<small>%</small></div><div class="n" id="smNImm">normal response</div></div>
+      </div>
+      <div class="sm-urge"><div class="k"><span>Urge to breathe</span><b id="smVU">0%</b></div>
+        <div class="sm-bar"><span id="smUC" style="background:var(--sm-co2)"></span><span id="smUO" style="background:var(--sm-spo2)"></span><span id="smUM" style="background:#8DA3AD"></span><i id="smULim"></i></div>
+        <div class="sm-ukey"><span><i style="background:var(--sm-co2)"></i>CO₂ rising</span><span><i style="background:var(--sm-spo2)"></i>O₂ falling</span><span><i style="background:#8DA3AD"></i>chest not moving</span><span>│ gives in here</span></div></div>
+    </aside>
+  </div>
+
+  <div class="sm-zooms" aria-label="Zoomed views">
+    <div class="sm-zoom"><h3>Inside an air sac <span>~0.2 mm</span></h3><canvas id="smAir" aria-hidden="true"></canvas><p id="smTAir"></p></div>
+    <div class="sm-zoom"><h3>In the blood <span>red cells</span></h3><canvas id="smBlood" aria-hidden="true"></canvas><p id="smTBlood"></p></div>
+    <div class="sm-zoom"><h3>In the brain <span>capillary</span></h3><canvas id="smBrainC" aria-hidden="true"></canvas><p id="smTBrain"></p></div>
+    <div class="sm-zoom"><h3>An immune cell <button type="button" class="sm-chip" id="smTox" aria-pressed="false">Add bacterial toxin</button></h3><canvas id="smImm" aria-hidden="true"></canvas><p id="smTImm"></p></div>
+  </div>
+
+  <div class="sm-trace" aria-label="Timeline">
+    <div class="sm-trace-h"><h2>Timeline</h2>
+      <div class="sm-legend"><span><i style="background:#3CCFEA"></i>SpO₂ at the finger</span><span><i style="background:#3CCFEA;opacity:.5"></i>O₂ leaving the lungs</span><span><i style="background:#F2CF4A"></i>PaCO₂</span><span><i style="background:#FF7B52"></i>urge</span><span><i style="background:#5BE08E"></i>heart rate</span><span><i style="background:#FFB547"></i>adrenaline</span><span><i style="background:#8aa0aa"></i>previous run</span></div></div>
+    <canvas id="smTrace" aria-label="Timeline of blood oxygen, CO2, urge to breathe and heart rate"></canvas>
+    <p class="sm-ghost" id="smGhost"></p>
+  </div>
+
+  <div class="sm-pair">
+    <div class="sm-card"><h2>Your next breath out</h2>
+      <div class="sm-breath">
+        <div class="sm-brow"><span>CO₂ in the breath</span><span class="v" id="smBCo2" style="color:var(--sm-co2)">5.3%</span><div class="sm-meter"><span id="smMCo2" style="background:var(--sm-co2)"></span></div><span class="d" id="smDCo2">About 5% at rest. It climbs while the air sits in your lungs.</span></div>
+        <div class="sm-brow"><span>O₂ in the breath</span><span class="v" id="smBO2" style="color:var(--sm-spo2)">14%</span><div class="sm-meter"><span id="smMO2" style="background:var(--sm-spo2)"></span></div><span class="d">Room air is 21%. Your blood keeps pulling O₂ out of the held air.</span></div>
+        <div class="sm-brow"><span>Blood-borne volatile compounds</span><span class="v" id="smBVoc" style="color:var(--sm-ph)">1.0×</span><div class="sm-meter"><span id="smMVoc" style="background:var(--sm-ph)"></span></div><span class="d">Holding lets the air-sac gas settle with the blood. Breath holding "can induce a two- to threefold increase" in certain <button type="button" class="term" data-g="voc">VOCs</button> <a class="src" href="#src-bb">BB 2.2.6</a>. The curve here is illustrative.</span></div>
+      </div></div>
+    <div class="sm-card"><h2>What's happening</h2><ol class="sm-log" id="smLog"><li class="empty">Events appear here as the hold runs.</li></ol></div>
+  </div>
+
+  <div class="sm-notes">
+    <div class="sm-card"><h3>What sets the limit</h3>
+      <p>Your brainstem measures <button type="button" class="term" data-g="co2">CO₂</button> through the acidity it causes, and the carotid bodies in your neck measure <button type="button" class="term" data-g="o2">O₂</button>. At rest, CO₂ does most of the work, so the urge usually arrives while oxygen is still fine.</p>
+      <p>Fast, deep breathing first blows CO₂ down. The alarm then starts from a lower level and takes longer to go off, while oxygen keeps falling. That gap is why blackouts can come without warning <span class="src gk">outside library</span>.</p></div>
+    <div class="sm-card"><h3>Why trained people last longer</h3>
+      <ul>
+        <li><b>They tolerate a stronger urge,</b> and with practice the CO₂ alarm itself becomes less sensitive.</li>
+        <li><b>They use less oxygen.</b> Being calm and still, plus a stronger dive response (a slower heart, less blood to the limbs), stretches the same store further.</li>
+        <li><b>Elite freedivers carry more.</b> They have bigger lungs, and their spleen squeezes out extra red cells during a hold, giving roughly 5–10% more <button type="button" class="term" data-g="hb">haemoglobin</button>.</li>
+        <li><b>In this model,</b> regular practice gives about 2.5 minutes after 30 fast breaths and breathing out, with SpO₂ dipping to about 60%. Nudge the limit up and you reach 3 minutes, with oxygen near 50%. Elite settings reach 7–8 minutes on air. Real competition records are longer still. <span class="src gk">outside library</span></li>
+      </ul></div>
+    <div class="sm-card sm-wide"><h3>What the research says about the method's benefits</h3>
+      <div class="sm-two">
+        <div><h4>What the studies found</h4><ul>
+          <li><b>A calmer inflammatory response.</b> In the best-known study, 12 men trained for about 10 days in the breathing, cold exposure and meditation. They were then injected with a bacterial toxin that causes a few hours of flu-like illness. Compared with 12 untrained men, they had more adrenaline, more of the anti-inflammatory signal IL-10, fewer inflammatory signals and milder symptoms (Kox et al., <i>PNAS</i> 2014).</li>
+          <li><b>The breathing seems to be the active part.</b> The fast breathing drove the adrenaline surge. A later pilot study from the same group found the breathing exercise did more to damp the response than cold training did (2022).</li>
+          <li><b>Why it got attention:</b> it showed people can deliberately influence stress and immune responses that were thought to be automatic.</li>
+          <li><b>See the chain above:</b> the O₂ sensors and fast breathing fire the stress nerves, the adrenal glands release adrenaline, and adrenaline docks on immune cells' β2 receptors. Try 30 fast breaths with the toxin added, then compare with normal breathing.</li>
+        </ul></div>
+        <div><h4>What they don't show yet</h4><ul>
+          <li><b>That it stops you getting sick.</b> The toxin test models inflammation, not an infection. A quieter immune response isn't the same as better protection, and these studies didn't test whether people caught fewer colds or flu.</li>
+          <li><b>Cold showers, one part of the method:</b> in a Dutch trial of about 3,000 people, those taking them called in sick less often, but they weren't ill on fewer days (Buijze et al., <i>PLOS ONE</i> 2016).</li>
+          <li><b>The wider claims rest on small, short studies.</b> A 2024 systematic review found the evidence on mood, stress and performance mixed and of low quality, and called for larger, longer trials.</li>
+        </ul></div>
+      </div>
+      <p class="sm-lens"><b>Sources:</b> published studies outside our library <span class="src gk">outside library</span>. <b>Noze lens</b> (our synthesis, not a library claim): the breathing itself changes breath composition for a while <a class="src" href="#src-bb">BB 2.2.6</a> <a class="src" href="#src-bb">BB 3.5.1</a>, so recent practice is worth noting before a breath measurement.</p></div>
+    <div class="sm-card"><h3>How the model works</h3>
+      <ul>
+        <li>The lungs are one gas bag. Blood in the <button type="button" class="term" data-g="capillary">capillaries</button> swaps O₂ and CO₂ with it until they match.</li>
+        <li>Haemoglobin uses the standard oxygen curve, which shifts with pH (the Bohr effect).</li>
+        <li>At rest the body uses 250 mL of O₂ a minute. CO₂ sits in large body buffers, so blood CO₂ climbs about 3–4 mmHg a minute.</li>
+        <li>Blood takes about 6 s to reach the brain and about 14 s to reach a fingertip oximeter.</li>
+        <li>Brain blood flow rises with CO₂ and with low O₂, and falls when CO₂ is low. The urge is a weighted sum of the two sensors plus lung stretch. The weights and training presets are illustrative.</li>
+        <li>Adrenaline follows a stress signal made of the effort of fast breathing, the O₂ sensors, the struggle phase and cold. It lasts a few minutes in the blood. Its brake on immune cells builds over about a minute and fades over about ten. The direction follows Kox et al. 2014; the sizes are illustrative.</li>
+      </ul></div>
+    <div class="sm-card"><h3>Sources</h3>
+      <p>The body physiology is general textbook knowledge that our library doesn't cover <span class="src gk">outside library</span>. The numbers are typical values for a resting adult, not exact ones.</p>
+      <p>From our library: breath holding can raise certain volatile compounds two- to threefold, and hyperventilation changes breath patterns immediately <a class="src" href="#src-bb">BB 2.2.6</a>. During hyperventilation, breath acetone tends to rise <a class="src" href="#src-bb">BB 3.5.1</a>. NO from the lining of the lung's blood vessels works against the narrowing that low oxygen causes <a class="src" href="#src-r04">R04 §II.F.1</a>.</p>
+      <p>This is for learning, not medical advice, and it isn't a guide to training breath holds.</p></div>
+  </div>
+</section>
+
 </div>
 <div class="view" data-view="glossary" hidden>
 <section class="chapter wrap" id="glossary">
@@ -2495,7 +2771,7 @@ kbd{font:600 12px var(--f-mono);padding:1px 6px;border-radius:5px;border:1px sol
 </section>
 </div>
 </main>
-<footer class="foot wrap"><div class="ft-brand"><i aria-hidden="true"></i><div><b>Beginner’s Guide to FeNO</b><span>Made for the Noze team · grounded in our reference library</span></div></div><nav class="ft-links" aria-label="Footer"><a href="#/">Essentials</a><a href="#/games">Games</a><a href="#/glossary">Glossary</a><a href="#/sources">Sources</a></nav><p class="ft-note">Educational tool for understanding respiratory biology. It is not medical, diagnostic or clinical advice. Simulations are simplified models tuned to library reference values; where magnitudes are illustrative, the page says so.</p></footer>
+<footer class="foot wrap"><div class="ft-brand"><i aria-hidden="true"></i><div><b>Beginner’s Guide to FeNO</b><span>Made for the Noze team · grounded in our reference library</span></div></div><nav class="ft-links" aria-label="Footer"><a href="#/">Essentials</a><a href="#/games">Games</a><a href="#/sim">Simulator</a><a href="#/glossary">Glossary</a><a href="#/sources">Sources</a></nav><p class="ft-note">Educational tool for understanding respiratory biology. It is not medical, diagnostic or clinical advice. Simulations are simplified models tuned to library reference values; where magnitudes are illustrative, the page says so.</p></footer>
 <script>
 (function(){
 'use strict';
@@ -7737,6 +8013,424 @@ set('vq',(x,t)=>{const k=.5+.5*Math.sin(t*.8);
 
 </script>
 <script>
+
+(()=>{'use strict';
+/* v7 · Breath-hold simulator (the Simulator view). Lumped physiology model + canvases; runs only while the view is on screen. */
+const ROOT=document.getElementById('smRoot');if(!ROOT)return;
+const TAU=Math.PI*2,RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=s=>ROOT.querySelector(s),$$=s=>[...ROOT.querySelectorAll(s)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t,fr=v=>v-Math.floor(v);
+const C={spo2:'#3CCFEA',co2:'#F2CF4A',hr:'#5BE08E',ph:'#B7A2FF',cbf:'#FF93B6',urge:'#FF7B52',ink:'#E4EEF1',ink2:'#A9BBC3',mute:'#71889E',crit:'#FF4B63',warn:'#F5B83D',ok:'#5BE08E'};
+const MONO='"JetBrains Mono",ui-monospace,Menlo,monospace';
+
+/* ===================== physiology model (lumped, simplified; general physiology) ===================== */
+const M={PD:713,Hb:0.201,VO2:250/60,RQ:0.8,Vv:3500,kCO2:0.0045,CapT:55,FRC:2500,Q0:5000/60,HR0:70,CMRO2:50/60,CBF0:750/60};
+const pHof=P=>{const h=24+0.1*(P-40);return 6.1+Math.log10(h/(0.03*Math.max(P,5)));};
+const virt=(P,pH,Cc)=>P*Math.pow(10,0.40*(pH-7.40)+0.06*Math.log10(40/Math.max(Cc,5)));
+const sat=(P,pH,Cc)=>{const v=virt(P,pH,Cc);return 1/(23400/(v*v*v+150*v)+1);};
+let HBF=1;const cont=(P,pH,Cc)=>M.Hb*HBF*sat(P,pH,Cc)+0.00003*P;
+const pFromC=(Ct,pH,Cc)=>{let lo=1,hi=720;for(let i=0;i<34;i++){const m=(lo+hi)/2;cont(m,pH,Cc)>Ct?hi=m:lo=m;}return (lo+hi)/2;};
+const PRE={normal:{dur:12,VA:4.5,FI:0.2095,rate:12,amp:500},deep:{dur:60,VA:24,FI:0.2095,rate:30,amp:1700},oxygen:{dur:120,VA:6,FI:1,rate:12,amp:600}};
+const VOL={full:6000,normal:3000,empty:2400};
+/* who is holding: training blunts both alarms, lowers O2 use and strengthens the dive response; elite divers also have bigger lungs and a spleen that adds red cells (illustrative) */
+const WHO={beg:{limit:1,vo2:1,cs:1,hs:1,lung:1,spleen:0,dive:0},prac:{limit:2.3,vo2:.78,cs:.72,hs:.75,lung:1.05,spleen:.04,dive:.3},elite:{limit:2.6,vo2:.7,cs:.6,hs:.7,lung:1.35,spleen:.08,dive:.6}};
+function init(o){const s={t:0,phase:'pre',o,ev:{},buf:[],W:WHO[o.who||'beg'],hbf:1};
+  s.nO2=M.FRC*100/M.PD;s.nCO2=M.FRC*40/M.PD;s.nN2=M.FRC-s.nO2-s.nCO2;s.PvCO2=46;s.Cv=cont(100,pHof(40),40)-M.VO2/M.Q0;
+  Object.assign(s,{adr:1,brk:0,sym:0,brady:0,vaso:0,tach:0,hold:0,sp:97.6,bP:100,bC:40,struggle:0,outcome:null,tHold:null,tEnd:null,Vh:M.FRC,maxU:0});return s;}
+function derived(s){HBF=s.hbf;const V=s.nO2+s.nCO2+s.nN2,PA=s.nO2/V*M.PD,PC=s.nCO2/V*M.PD,pH=pHof(PC),Sa=sat(PA,pH,PC),Ca=cont(PA,pH,PC);
+  const pHv=pHof(s.PvCO2),Pv=pFromC(Math.max(0.005,s.Cv),pHv,s.PvCO2),Sv=sat(Pv,pHv,s.PvCO2);
+  const adrN=clamp((s.adr-1)/5,0,1),HR=M.HR0*(1-s.brady+s.tach+0.16*adrN),Q=M.Q0*(1-0.6*s.brady+0.5*s.tach+0.25*adrN);
+  const bpH=pHof(s.bC),bSa=sat(s.bP,bpH,s.bC),bCa=cont(s.bP,bpH,s.bC);
+  let cbf=s.bC>=40?1+0.035*(s.bC-40):Math.max(0.75,1-0.01*(40-s.bC));cbf*=1+0.008*Math.max(0,90-bSa*100);cbf=Math.min(1.8,cbf);
+  const PvbC=s.bC+6/cbf,Cvb=Math.max(0.004,bCa-(M.CMRO2/M.CBF0)/cbf),Pvb=pFromC(Cvb,pHof(PvbC),PvbC);
+  const c=s.W.cs*Math.max(0,(s.bC-38)/10),f=clamp(0.4+0.6*(s.bC-25)/15,0.3,1.6),ox=s.W.hs*0.35*Math.max(0,60/Math.max(s.bP-25,4)-1)*f;
+  const hold=s.phase==='hold';const vol=hold?(s.Vh<3000?0.12*(3000-s.Vh)/1200:-0.08*(s.Vh-3000)/3000):0,move=hold?0.18*Math.min(1,s.hold/80):0;
+  const urge=Math.max(0,c+ox+vol+move);const brain=Pvb>26?0:Pvb>22?1:Pvb>20?2:3;
+  return {V,PA,PC,pH,Sa,Ca,Pv,Sv,HR,Q,cbf,Pvb,bSa,uC:c,uO:ox,uM:Math.max(0,vol+move),urge,brain};}
+function step(s,dt){const o=s.o,cold=o.cold?1:0;let d=derived(s);
+  if(s.phase==='pre'&&s.t>=PRE[o.pre].dur){s.phase='hold';s.tHold=s.t;const Vt=VOL[o.lungs]*(o.lungs==='full'?s.W.lung:1+(s.W.lung-1)*.5),V=d.V;
+    if(Vt>V){const add=Vt-V,FI=PRE[o.pre].FI;s.nO2+=add*FI;s.nN2+=add*(1-FI);}else{const k=Vt/V;s.nO2*=k;s.nCO2*=k;s.nN2*=k;}s.Vh=Vt;d=derived(s);}
+  const hold=s.phase==='hold';let VA=0,FI=0.2095;
+  if(s.phase==='pre'){VA=PRE[o.pre].VA*1000/60;FI=PRE[o.pre].FI;}
+  if(s.phase==='recover'){VA=(4.5+Math.min(8,9*Math.max(0,d.urge-0.3)))*1000/60;}
+  const VO2=M.VO2*(hold?s.W.vo2*(1-0.08*cold*(1+s.W.dive)):1)*(1+0.15*s.struggle),VCO2=M.RQ*VO2;
+  const up=d.Q*(d.Ca-s.Cv),ex=d.Q*M.kCO2*(s.PvCO2-d.PC);s.up=up;s.ex=ex;
+  s.Cv+=(up-VO2)/M.Vv*dt;s.PvCO2+=(VCO2-ex)/M.CapT*dt;s.nO2-=up*dt;s.nCO2+=ex*dt;
+  if(VA>0){const V=s.nO2+s.nCO2+s.nN2;s.nO2+=(VA*FI-VA*s.nO2/V)*dt;s.nCO2-=VA*s.nCO2/V*dt;s.nN2+=(VA*(1-FI)-VA*s.nN2/V)*dt;const k=M.FRC/(s.nO2+s.nCO2+s.nN2);s.nO2*=k;s.nCO2*=k;s.nN2*=k;}
+  s.nO2=Math.max(1,s.nO2);
+  s.buf.push([d.PA,d.PC,d.Sa]);if(s.buf.length>320)s.buf.shift();const at=k=>s.buf[Math.max(0,s.buf.length-1-Math.round(k/dt))];
+  const b=at(6),fz=at(14);s.bP+=(b[0]-s.bP)*Math.min(1,dt/1.5);s.bC+=(b[1]-s.bC)*Math.min(1,dt/1.5);s.sp+=(fz[2]*100-s.sp)*Math.min(1,dt/3);
+  const bt=hold?0.10+0.12*s.W.dive+0.20*cold+(d.bSa<0.8?0.08:0):0;s.brady+=(bt-s.brady)*dt/(hold?14:8);
+  s.tach+=((s.phase==='recover'?0.18*Math.exp(-(s.t-s.tEnd)/40):0)-s.tach)*dt/4;
+  s.vaso+=((hold?0.3+0.35*cold+0.35*Math.min(1,d.urge):0)-s.vaso)*dt/12;
+  s.struggle=hold&&d.urge>0.85?Math.min(1,(d.urge-0.85)/0.6):0;
+  /* adrenaline (illustrative): fight-or-flight nerves fire with the effort and alkalosis of fast breathing, with the carotid O2 sensors,
+     with the struggle phase and with cold; the adrenal glands release adrenaline, which lasts a few minutes in blood.
+     Its brake on immune cells (via beta-2 receptors) builds more slowly and lasts much longer. Direction of effects as in Kox et al. 2014. */
+  const hv=s.phase==='pre'&&o.pre==='deep'?Math.min(1,s.t/25):0;
+  s.sym=clamp(0.8*hv+0.9*Math.min(2,d.uO)+0.5*s.struggle+0.25*cold*(hold?1:0),0,3);
+  const aT=1+4*s.sym;s.adr+=(aT-s.adr)*dt/(aT>s.adr?25:150);
+  const bT=(s.adr-1)/(s.adr-1+3);s.brk+=(bT-s.brk)*dt/(bT>s.brk?60:600);
+  if(hold&&s.W.spleen>0){const tgt=1+s.W.spleen*(1-Math.exp(-s.hold/60)),dh=tgt-s.hbf;if(dh>0){s.Cv*=(s.hbf+dh)/s.hbf;s.hbf+=dh;}}
+  s.t+=dt;if(hold){s.hold=s.t-s.tHold;s.maxU=Math.max(s.maxU,d.urge);}
+  if(hold){if(d.brain===3){s.phase='recover';s.outcome='blackout';s.tEnd=s.t;}else if(o.limit<3.15&&d.urge>=o.limit){s.phase='recover';s.outcome='gave';s.tEnd=s.t;}}
+  return d;}
+function forceBreath(s){if(s.phase!=='hold')return;s.phase='recover';s.outcome='chose';s.tEnd=s.t;}
+
+/* ===================== UI state ===================== */
+const opt={pre:'normal',lungs:'full',who:'beg',limit:1,cold:false};let round=0,speed=4,sim=null,running=false,done=false,hist=[],ghost=null,ghostLabel='',last=null,predict=null,logItems=[],tRec=0;
+const rest=init({...opt});for(let i=0;i<200;i++)step(rest,0.05);rest.phase='idle';
+function resting(){return {s:rest,d:derived(rest)};}
+const PRE_NAME={normal:'Normal breathing',deep:'30 fast, deep breaths',oxygen:'Pure oxygen first'},LUNG_NAME={full:'full breath in',normal:'normal breath',empty:'breathed out'},WHO_NAME={beg:'beginner',prac:'regular practice',elite:'elite freediver'};
+const fmtT=t=>{t=Math.max(0,Math.floor(t));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0');};
+
+/* offline run for the example / comparison trace */
+function runOffline(o){const s=init(o),h=[];let d,k=0;for(let i=0;i<14000;i++){d=step(s,0.1);if(++k%3===0)h.push(snap(s,d));if(s.outcome&&s.t>s.tEnd+40)break;}return {h,s};}
+function snap(s,d){return {t:s.tHold==null?s.t-PRE[s.o.pre].dur:s.t-s.tHold,sp:s.sp,sa:d.Sa*100,pc:d.PC,u:d.urge,hr:d.HR,a:s.adr,ph:s.phase};}
+{const g=runOffline({...opt});ghost=g.h;ghostLabel=`Grey dotted line: an example run (normal breathing, full breath in, beginner). Held ${fmtT(g.s.hold)}.`;}
+
+/* ===================== canvases ===================== */
+function mk(id,LW,LH){const c=$(id),x=c.getContext('2d');const o={c,x,LW,LH,k:1,w0:0,fit(){const w=c.clientWidth;if(!w)return;const d=Math.min(2,window.devicePixelRatio||1);o.w0=w;o.k=w/o.LW;c.width=Math.round(w*d);c.height=Math.round(w*o.LH/o.LW*d);x.setTransform(o.k*d,0,0,o.k*d,0,0);}};o.fit();return o;}
+const CV={body:mk('#smBody',640,680),air:mk('#smAir',360,220),blood:mk('#smBlood',360,220),brain:mk('#smBrainC',360,220),imm:mk('#smImm',360,220),trace:mk('#smTrace',1280,470)};
+function fitAll(){const narrow=innerWidth<700;CV.trace.LW=narrow?520:1280;CV.trace.LH=470;Object.values(CV).forEach(o=>o.fit());}
+fitAll();addEventListener('resize',()=>{if(visible)fitAll();else CV.body.w0=-1;});
+
+/* drawing kit */
+const hex=h=>{if(h[0]!=='#'){const m=h.match(/[\d.]+/g);return m?m.slice(0,3).map(Number):[128,128,128];}h=h.slice(1);return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];};
+const rgb=(a,al)=>al==null?`rgb(${a.map(Math.round).join(',')})`:`rgba(${a.map(Math.round).join(',')},${al})`;
+const mix=(a,b,t)=>{const A=hex(a),B=hex(b);return rgb(A.map((v,i)=>lerp(v,B[i],clamp(t,0,1))));};
+const shade=(c,amt)=>{const A=hex(c);return rgb(A.map(v=>amt<0?v*(1+amt):v+(255-v)*amt));};
+function ball(x,cx,cy,r,c){const g=x.createRadialGradient(cx-r*.35,cy-r*.4,r*.08,cx,cy,r);g.addColorStop(0,'rgba(255,255,255,.92)');g.addColorStop(.35,c);g.addColorStop(1,shade(c,-.5));x.fillStyle=g;x.beginPath();x.arc(cx,cy,r,0,TAU);x.fill();}
+/* blood colour follows oxygen saturation: bright scarlet when full, dusky plum when low */
+const BLOOD=[[0.25,'#43204f'],[0.5,'#65254f'],[0.75,'#9a2446'],[0.9,'#c8213f'],[1,'#e8263d']];
+function blood(S){S=clamp(S,0.25,1);for(let i=1;i<BLOOD.length;i++)if(S<=BLOOD[i][0]){const [a,ca]=BLOOD[i-1],[b,cb]=BLOOD[i];return mix(ca,cb,(S-a)/(b-a));}return BLOOD[4][1];}
+function rbc(x,cx,cy,R,col,ang,sq){x.save();x.translate(cx,cy);x.rotate(ang||0);x.scale(1,sq==null?1:sq);const g=x.createRadialGradient(0,0,R*.1,0,0,R);g.addColorStop(0,shade(col,-.35));g.addColorStop(.45,shade(col,-.1));g.addColorStop(.8,col);g.addColorStop(1,shade(col,-.4));x.fillStyle=g;x.beginPath();x.arc(0,0,R,0,TAU);x.fill();x.strokeStyle='rgba(255,255,255,.18)';x.lineWidth=Math.max(.8,R*.08);x.beginPath();x.arc(0,0,R*.82,-2.4,-.6);x.stroke();x.restore();}
+function o2(x,cx,cy,s,a){const dx=Math.cos(a)*2.4*s,dy=Math.sin(a)*2.4*s;ball(x,cx-dx,cy-dy,2.9*s,'#ef4d3c');ball(x,cx+dx,cy+dy,2.9*s,'#ef4d3c');}
+function co2m(x,cx,cy,s,a){const dx=Math.cos(a)*5*s,dy=Math.sin(a)*5*s;ball(x,cx-dx,cy-dy,2.6*s,'#ef4d3c');ball(x,cx+dx,cy+dy,2.6*s,'#ef4d3c');ball(x,cx,cy,2.9*s,'#4a5258');}
+function n2(x,cx,cy,s,a){const dx=Math.cos(a)*2.2*s,dy=Math.sin(a)*2.2*s;ball(x,cx-dx,cy-dy,2.5*s,'#6f86c9');ball(x,cx+dx,cy+dy,2.5*s,'#6f86c9');}
+function tube(x,pts,w,c0,c1,hl){x.lineCap='round';x.lineJoin='round';const path=()=>{x.beginPath();pts.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));};
+  const g=(c)=>{if(!c1)return c;const a=pts[0],b=pts[pts.length-1],gr=x.createLinearGradient(a[0],a[1],b[0],b[1]);gr.addColorStop(0,c[0]);gr.addColorStop(1,c[1]);return gr;};
+  path();x.strokeStyle=c1?g([shade(c0,-.45),shade(c1,-.45)]):shade(c0,-.45);x.lineWidth=w;x.stroke();path();x.strokeStyle=c1?g([c0,c1]):c0;x.lineWidth=w*.7;x.stroke();
+  if(hl!==false){x.save();x.translate(-w*.12,-w*.14);path();x.strokeStyle='rgba(255,255,255,.22)';x.lineWidth=Math.max(1,w*.16);x.stroke();x.restore();}}
+function along(P,u){let L=0;const seg=[];for(let i=0;i<P.length-1;i++){const l=Math.hypot(P[i+1][0]-P[i][0],P[i+1][1]-P[i][1]);seg.push(l);L+=l;}let d=clamp(u,0,1)*L;for(let i=0;i<seg.length;i++){if(d<=seg[i]||i===seg.length-1){const v=seg[i]?d/seg[i]:0;return [lerp(P[i][0],P[i+1][0],v),lerp(P[i][1],P[i+1][1],v),i,Math.atan2(P[i+1][1]-P[i][1],P[i+1][0]-P[i][0])];}d-=seg[i];}}
+function glow(x,cx,cy,r,col,a){const g=x.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,rgb(hex(col),a));g.addColorStop(1,rgb(hex(col),0));x.fillStyle=g;x.beginPath();x.arc(cx,cy,r,0,TAU);x.fill();}
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();}
+let FS=1;function txt(x,s,X,Y,o){o=o||{};x.font=(o.w||600)+' '+((o.px||12)*(o.fs===false?1:FS)).toFixed(1)+'px '+(o.f||MONO);x.fillStyle=o.c||C.ink;x.textAlign=o.al||'left';x.textBaseline=o.bl||'middle';x.fillText(s,X,Y);}
+
+/* ===================== body scene ===================== */
+const SK=[[292,262],[282,232,248,205,244,150],[240,80,290,26,345,28],[400,30,438,70,440,112],[446,128],[449,138,452,146,462,160],[450,170],[447,176,450,181,452,186],[445,192],[450,197,450,203,446,206],[446,218,440,228,424,234],[405,240,392,246,388,262],[392,282],[420,290,470,296,486,318],[492,440,484,560,476,680],[192,680],[186,560,180,440,190,318],[206,294,262,288,292,280]];
+function skinPath(x){x.beginPath();SK.forEach((p,i)=>{if(i===0)x.moveTo(p[0],p[1]);else if(p.length===2)x.lineTo(p[0],p[1]);else x.bezierCurveTo(...p);});x.closePath();}
+const ART=[[366,440],[352,352],[360,304],[367,262],[372,238],[362,206],[346,176],[330,150]];
+const VEIN=[[300,150],[316,186],[336,214],[350,262],[347,330],[340,440]];
+const AIR=[[447,196],[420,194],[392,196],[376,214],[372,250],[366,300],[342,350]];
+function lungPath(x,side,sc){// side -1 viewer-left, +1 viewer-right; scaled about the hilum
+  const hx=side<0?296:392,hy=392;x.save();x.translate(hx,hy);x.scale(lerp(.9,1.05,sc),lerp(.72,1.06,sc));x.translate(-hx,-hy);x.beginPath();
+  if(side<0){x.moveTo(300,318);x.bezierCurveTo(262,316,222,370,214,440);x.bezierCurveTo(208,500,214,540,232,548);x.bezierCurveTo(262,540,300,528,328,522);x.bezierCurveTo(330,470,322,420,330,380);x.bezierCurveTo(334,350,322,318,300,318);}
+  else{x.moveTo(380,318);x.bezierCurveTo(420,316,462,372,468,442);x.bezierCurveTo(474,500,466,540,448,548);x.bezierCurveTo(424,542,408,534,398,526);x.bezierCurveTo(402,500,388,470,372,452);x.bezierCurveTo(360,420,352,390,356,366);x.bezierCurveTo(358,338,364,318,380,318);}
+  x.closePath();x.restore();}
+const TREE=(()=>{const out=[];function g(x0,y0,a,l,d,side){const x1=x0+Math.cos(a)*l,y1=y0+Math.sin(a)*l;out.push({x0,y0,x1,y1,d,side});if(d>=4)return;const sp=.5+d*.06;g(x1,y1,a-sp,l*.72,d+1,side);g(x1,y1,a+sp,l*.72,d+1,side);}
+  g(342,350,Math.PI*.78,40,0,-1);g(342,350,Math.PI*.22,40,0,1);return out;})();
+/* front view of the heart: right atrium on the viewer's left, apex pointing down to the viewer's right */
+function heartPath(x,cx,cy,s){x.save();x.translate(cx,cy);x.scale(s,s);x.beginPath();x.moveTo(-30,-36);x.bezierCurveTo(-40,-22,-42,2,-34,20);x.bezierCurveTo(-24,38,6,44,40,44);x.bezierCurveTo(46,40,50,30,52,14);x.bezierCurveTo(56,-6,52,-24,44,-34);x.bezierCurveTo(34,-44,20,-46,10,-42);x.bezierCurveTo(-4,-46,-20,-46,-30,-36);x.closePath();x.restore();}
+function drawHeart(x,pulse,Sa,Sv){const cx=356,cy=470,sv=1-.045*pulse,sa=1+.05*pulse;
+  // great vessels behind: superior vena cava (blue), pulmonary trunk, ascending aorta
+  tube(x,[[330,440],[332,396],[336,352]],13,blood(Sv),null,true);
+  tube(x,[[376,440],[382,412],[372,392]],12,blood(Sv),null,true);
+  tube(x,[[358,444],[362,410],[352,352]],15,blood(Sa),null,true);
+  // right atrium and left auricle
+  x.save();x.translate(326,452);x.scale(sa,sa);ball(x,0,0,16,'#b8323f');x.restore();
+  x.save();x.translate(398,440);x.rotate(.5);x.scale(sa,sa);x.beginPath();x.ellipse(0,0,11,7,0,0,TAU);x.fillStyle='#8f2231';x.fill();x.restore();
+  // ventricles: squeeze with each beat
+  heartPath(x,cx,cy,sv);const g=x.createRadialGradient(cx-14,cy-16,6,cx+4,cy+6,64);g.addColorStop(0,'#e0656a');g.addColorStop(.55,'#b3283a');g.addColorStop(1,'#5e0d1b');x.fillStyle=g;x.fill();x.strokeStyle='rgba(255,190,190,.45)';x.lineWidth=1.2;x.stroke();
+  // groove between the ventricles, with its fat, artery and vein
+  x.save();heartPath(x,cx,cy,sv);x.clip();x.lineCap='round';x.strokeStyle='rgba(222,190,110,.55)';x.lineWidth=7;x.beginPath();x.moveTo(cx+4,cy-40);x.bezierCurveTo(cx+10,cy-10,cx+20,cy+18,cx+34,cy+42);x.stroke();
+  x.strokeStyle='#d8404c';x.lineWidth=2;x.stroke();x.strokeStyle='rgba(90,120,210,.8)';x.lineWidth=1.3;x.beginPath();x.moveTo(cx+8,cy-40);x.bezierCurveTo(cx+14,cy-10,cx+24,cy+18,cx+37,cy+40);x.stroke();
+  x.strokeStyle='rgba(222,190,110,.4)';x.lineWidth=5;x.beginPath();x.moveTo(cx-34,cy-30);x.bezierCurveTo(cx-12,cy-40,cx+20,cy-44,cx+44,cy-32);x.stroke();
+  x.fillStyle='rgba(255,255,255,.12)';x.beginPath();x.ellipse(cx-12,cy-14,16,9,-.5,0,TAU);x.fill();x.restore();}
+/* brain folds: deterministic wandering lines, plus the two big fissures */
+const GYRI=(()=>{let sd=11;const r=()=>{sd=(sd*16807)%2147483647;return sd/2147483647;};const out=[];
+  for(let i=0;i<46;i++){let px=258+r()*168,py=48+r()*110,a=r()*TAU;const g=[[px,py]];for(let k=0;k<9;k++){a+=(r()-.5)*1.6;px+=Math.cos(a)*7;py+=Math.sin(a)*7;g.push([px,py]);}g.w=1.8+r()*1.2;out.push(g);}
+  const lat=[[292,132],[318,122],[346,116],[372,112],[396,114]];lat.w=3.2;const cen=[[344,44],[340,62],[334,80],[330,98],[326,114]];cen.w=2.8;out.push(lat,cen);return out;})();
+const PART=Array.from({length:44},(_,i)=>({u:i/44,l:i%3}));
+const NERVE=[[315,212],[318,262],[314,330],[312,420],[312,500],[314,586]],ADR_L=[[282,600],[322,612],[358,602],[358,530],[356,470]],ADR_R=[[404,604],[372,612],[360,596],[358,530],[356,470]];let ADRP=[];
+function drawBody(o,st,t,view){const x=o.x,W=640,H=680;x.clearRect(0,0,W,H);FS=clamp(.9/o.k,1,1.9);const narrow=o.k<.72;
+  const {s,d}=st,phase=s.phase,Sa=d.Sa,bSa=d.bSa,beat=fr(t*d.HR/60),pulse=Math.pow(Math.max(0,Math.sin(beat*TAU)),6);
+  // lung volume shown: tidal breathing when breathing, held volume when holding
+  let V;if(phase==='hold')V=d.V;else{const p=phase==='pre'?PRE[s.o.pre]:phase==='recover'?{rate:20,amp:900}:{rate:12,amp:480};V=M.FRC+p.amp*(.5-.5*Math.cos(t*p.rate/60*TAU));}
+  const sc=clamp((V-1500)/4500,0,1);view.V=V;
+  // skin and body
+  skinPath(x);let g=x.createLinearGradient(0,40,0,600);g.addColorStop(0,'rgba(58,86,104,.55)');g.addColorStop(1,'rgba(30,48,60,.5)');x.fillStyle=g;x.fill();x.strokeStyle='rgba(170,210,228,.35)';x.lineWidth=1.6;x.stroke();
+  x.save();skinPath(x);x.clip();
+  // eye and brow for a readable face
+  x.fillStyle='rgba(8,16,22,.8)';x.beginPath();x.ellipse(420,116,6,3.2,-.1,0,TAU);x.fill();x.strokeStyle='rgba(170,210,228,.35)';x.lineWidth=2;x.beginPath();x.moveTo(408,104);x.quadraticCurveTo(422,98,434,104);x.stroke();
+  // spine
+  x.fillStyle='rgba(230,236,238,.16)';for(let y=240;y<680;y+=15){rr(x,300-(y>330?4:0),y,18,11,4);x.fill();}
+  // brain: cerebrum, cerebellum, brainstem. Tint dims as brain oxygen falls.
+  const dim=clamp((30-d.Pvb)/12,0,1),bc=mix('#e2aeb0','#6c6180',dim);
+  x.save();x.beginPath();x.moveTo(252,126);x.bezierCurveTo(248,70,300,38,346,42);x.bezierCurveTo(396,44,428,78,424,118);x.bezierCurveTo(420,150,392,162,356,160);x.bezierCurveTo(328,160,300,166,278,158);x.bezierCurveTo(260,152,254,140,252,126);x.closePath();
+  g=x.createRadialGradient(330,86,10,336,104,98);g.addColorStop(0,shade(bc,.2));g.addColorStop(1,shade(bc,-.25));x.fillStyle=g;x.fill();x.clip();
+  x.lineCap='round';x.lineJoin='round';GYRI.forEach(g=>{x.beginPath();g.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.strokeStyle=shade(bc,-.45);x.lineWidth=g.w;x.stroke();x.save();x.translate(-1.2,-1.2);x.strokeStyle=rgb(hex(shade(bc,.35)),.55);x.lineWidth=1;x.stroke();x.restore();});
+  x.restore();
+  x.fillStyle=shade(bc,-.15);x.beginPath();x.ellipse(282,168,30,19,.2,0,TAU);x.fill();x.strokeStyle=shade(bc,-.45);x.lineWidth=1.4;for(let i=0;i<4;i++){x.beginPath();x.ellipse(282,168,26-i*6,15-i*3.5,.2,.2,2.9);x.stroke();}
+  tube(x,[[312,150],[314,190],[318,232],[318,300]],17,shade(bc,-.05),null,true);
+  // neural sparkle: activity drops with brain oxygen
+  const act=1-dim;if(!RM)for(let i=0;i<14;i++){const f=fr(t*(.6+act*1.4)+i*.37);if(f<.22*act+.02){const px=270+((i*61)%140),py=66+((i*43)%82);glow(x,px,py,9,'#9fe8ff',.7*act*(1-f/.24));}}
+  // brainstem CO2 sensor
+  const cs=clamp(d.uC,0,1.6),cp=RM?0:.5+.5*Math.sin(t*6);glow(x,315,208,14+14*cs,C.co2,.25+.45*Math.min(1,cs)*(.6+.4*cp));ball(x,315,208,4.2,C.co2);
+  // arteries and veins
+  tube(x,VEIN,9,blood(d.Sv),blood(d.Sv),true);tube(x,ART,10,blood(Sa),blood(bSa),true);
+  // carotid body (O2 sensor) at the fork
+  const os=clamp(d.uO,0,2);glow(x,375,238,12+16*Math.min(1,os),C.spo2,.2+.55*Math.min(1,os)*(.6+.4*cp));ball(x,375,238,4.4,C.spo2);
+  // airway: nose/mouth down the windpipe
+  tube(x,AIR,12,'#e6a6a0',null,true);x.strokeStyle='rgba(230,240,245,.25)';x.lineWidth=1;for(let i=0;i<9;i++){const p=along(AIR,.5+i*.05);x.beginPath();x.moveTo(p[0]-6,p[1]);x.lineTo(p[0]+6,p[1]);x.stroke();}
+  // lungs with airway tree, air sacs and a gas tint (blue = O2-rich, yellow = CO2-rich)
+  const co2f=clamp((d.PC-30)/35,0,1),o2f=clamp((d.PA-40)/80,0,1);
+  [-1,1].forEach(side=>{lungPath(x,side,sc);const lg=x.createRadialGradient(side<0?270:410,420,10,side<0?272:408,440,150);lg.addColorStop(0,'#f2b6b2');lg.addColorStop(1,'#b8636a');x.fillStyle=lg;x.globalAlpha=.9;x.fill();x.globalAlpha=1;
+    x.save();lungPath(x,side,sc);x.clip();
+    for(let i=0;i<70;i++){const px=(side<0?210:356)+((i*37)%118),py=322+((i*53)%226);x.strokeStyle='rgba(120,40,52,.35)';x.lineWidth=1;x.beginPath();x.arc(px,py,5.5+((i*7)%4),0,TAU);x.stroke();}
+    x.fillStyle=co2f>0.02?rgb(hex(C.co2),.08+.28*co2f):'rgba(0,0,0,0)';x.fillRect(180,300,320,280);x.fillStyle=rgb(hex('#5fb7ff'),.18*o2f);x.fillRect(180,300,320,280);
+    TREE.filter(b=>b.side===side).forEach(b=>{x.strokeStyle='rgba(255,226,220,.7)';x.lineWidth=Math.max(1.2,7-b.d*1.4);x.lineCap='round';x.beginPath();x.moveTo(b.x0,b.y0);x.lineTo(b.x1,b.y1);x.stroke();});
+    x.restore();lungPath(x,side,sc);x.strokeStyle='rgba(255,220,214,.5)';x.lineWidth=1.4;x.stroke();});
+  // pulmonary vessels
+  tube(x,[[350,440],[330,410],[304,396]],7,blood(d.Sv),null,false);tube(x,[[362,440],[372,412],[392,398]],7,blood(d.Sv),null,false);
+  tube(x,[[300,404],[336,434],[352,452]],6,blood(Sa),null,false);tube(x,[[394,406],[376,436],[366,452]],6,blood(Sa),null,false);
+  // heart, beating at the simulated rate
+  drawHeart(x,pulse,Sa,d.Sv);
+  // diaphragm: moves with breathing, twitches in the struggle phase
+  const tw=s.struggle>0&&!RM?Math.max(0,Math.sin(t*(3+4*s.struggle)*TAU))**8*10*s.struggle:0;const dy=lerp(20,-14,sc)-tw;
+  x.lineCap='round';x.strokeStyle='#8f3b3e';x.lineWidth=11;x.beginPath();x.moveTo(196,566);x.quadraticCurveTo(338,500+dy,480,566);x.stroke();x.strokeStyle='#cf7d74';x.lineWidth=5;x.stroke();
+  // below the diaphragm: aorta and vena cava, kidneys and the adrenal glands on top of them
+  tube(x,[[344,500],[340,600],[338,680]],12,blood(Sa),null,true);tube(x,[[362,680],[360,600],[356,500]],12,blood(d.Sv),null,true);
+  const adrN=clamp((s.adr-1)/5,0,1),rel=clamp(s.sym/1.5,0,1);
+  [[280,636,-1],[408,640,1]].forEach(([kx,ky,sd])=>{x.save();x.translate(kx,ky);x.rotate(sd*.18);const kg=x.createRadialGradient(-6,-8,4,0,0,34);kg.addColorStop(0,'#c46a5c');kg.addColorStop(1,'#6e2a28');x.fillStyle=kg;x.beginPath();x.ellipse(0,0,24,32,0,0,TAU);x.fill();
+    x.fillStyle='#2a1016';x.beginPath();x.ellipse(-sd*16,4,7,10,0,0,TAU);x.fill();x.restore();
+    const ax=kx-sd*2,ay=ky-38;if(rel>.02)glow(x,ax,ay,22+18*rel,'#FFB547',.25+.5*rel*(RM?1:.7+.3*Math.sin(t*5)));
+    x.beginPath();x.moveTo(ax-16,ay+8);x.quadraticCurveTo(ax-6,ay-16,ax+2,ay-14);x.quadraticCurveTo(ax+14,ay-8,ax+16,ay+8);x.closePath();const ag=x.createLinearGradient(ax,ay-14,ax,ay+8);ag.addColorStop(0,'#ffd27a');ag.addColorStop(1,'#c9892e');x.fillStyle=ag;x.fill();x.strokeStyle='rgba(255,230,170,.6)';x.lineWidth=1;x.stroke();});
+  // blood cells travelling round: heart → aorta → carotid → brain → jugular → heart
+  const spd=d.Q/M.Q0;PART.forEach((p,i)=>{if(!RM)p.u=fr(p.u+spd*0.0035*view.dtR);const u=p.u;let q,col;if(u<.58){q=along(ART,u/.58);col=blood(lerp(Sa,bSa,u/.58));}else{q=along(VEIN,(u-.58)/.42);col=blood(d.Sv);}rbc(x,q[0],q[1],3.4,col,q[3],.55);});
+  // adrenaline molecules: out of the adrenal glands, up the vena cava to the heart, then out to the body
+  if(!RM){view.aAcc=(view.aAcc||0)+rel*view.dtR*14;while(view.aAcc>1){view.aAcc--;ADRP.push({u:0,side:ADRP.length%2});}}
+  ADRP.forEach(p=>{p.u+=view.dtR*.22*spd;const P=p.side?ADR_R:ADR_L;let q;if(p.u<.45)q=along(P,p.u/.45);else q=along(ART,(p.u-.45)/.55);x.globalAlpha=Math.min(1,(1-p.u)*3);ball(x,q[0],q[1],2.6,'#FFB547');x.globalAlpha=1;});ADRP=ADRP.filter(p=>p.u<1).slice(-60);
+  x.restore();
+  // fight-or-flight nerves: brainstem down the spinal cord to the adrenal glands (drawn on top so you can see them)
+  x.save();x.strokeStyle=rgb(hex('#FFD27A'),.25+.5*rel);x.lineWidth=2;x.setLineDash([6,4]);x.beginPath();NERVE.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke();
+  x.beginPath();x.moveTo(314,586);x.quadraticCurveTo(296,590,282,598);x.moveTo(314,586);x.quadraticCurveTo(360,588,404,600);x.stroke();x.setLineDash([]);
+  if(!RM&&rel>.03)for(let i=0;i<4;i++){const f=fr(t*(0.6+1.4*rel)+i/4),q=along(NERVE,f);glow(x,q[0],q[1],8,'#FFD27A',.8*rel);}x.restore();
+  // face in cold water
+  if(s.o.cold&&phase!=='idle'||opt.cold&&phase==='idle'){x.save();x.beginPath();x.moveTo(398,40);for(let y=40;y<=260;y+=10)x.lineTo(398+Math.sin(y*.12+t*2)*3,y);x.lineTo(640,260);x.lineTo(640,40);x.closePath();const wg=x.createLinearGradient(398,0,640,0);wg.addColorStop(0,'rgba(80,170,230,.34)');wg.addColorStop(1,'rgba(40,110,180,.18)');x.fillStyle=wg;x.fill();x.strokeStyle='rgba(160,220,255,.6)';x.lineWidth=1.5;x.stroke();
+    if(!RM&&phase==='hold')for(let i=0;i<4;i++){const f=fr(t*.4+i*.25);x.strokeStyle='rgba(200,235,255,.5)';x.beginPath();x.arc(470,196-f*140,2+i,0,TAU);x.stroke();}x.restore();}
+  // air at the mouth
+  if(phase!=='hold'&&!RM){const p=phase==='pre'?PRE[s.o.pre]:phase==='recover'?{rate:20}:{rate:12};const ph=fr(t*p.rate/60),out=ph>.5;for(let i=0;i<6;i++){const f=fr(ph*2+i/6);const X=out?452+f*42:494-f*42,Y=196+Math.sin(i*2+t*3)*5;x.globalAlpha=(1-Math.abs(f-.5)*2)*.8;x.fillStyle=phase==='pre'&&s.o.pre==='oxygen'?'#8fd8ff':'#dfeaf0';x.beginPath();x.arc(X,Y,2.2,0,TAU);x.fill();}x.globalAlpha=1;}
+  else if(phase==='hold'){x.strokeStyle=C.urge;x.lineWidth=2.4;x.beginPath();x.moveTo(440,190);x.lineTo(452,198);x.stroke();}
+  // callouts with leader lines, fixed slots so nothing overlaps
+  const brainName=['Clear','Light-headed','Fading','Blackout'][d.brain];
+  const L=[{t:'Brain',v:brainName,ax:300,ay:84,bx:18,by:62,al:'left',c:[C.ok,C.warn,C.urge,C.crit][d.brain]},
+    {t:'CO₂ sensor',v:'brainstem · '+(d.uC<.05?'quiet':'firing '+Math.round(Math.min(160,d.uC*100))+'%'),ax:312,ay:208,bx:18,by:214,al:'left',c:C.co2},
+    {t:'Lungs',v:(V/1000).toFixed(1)+' L · CO₂ '+(d.PC/M.PD*100).toFixed(1)+'%',ax:232,ay:420,bx:18,by:386,al:'left',c:'#f2b6b2'},
+    {t:'Diaphragm',v:s.struggle>.02?'twitching':phase==='hold'?'still':'breathing',ax:230,ay:556,bx:18,by:520,al:'left',c:'#cf7d74'},
+    {t:'Mouth',v:phase==='hold'?'sealed':phase==='pre'&&s.o.pre==='oxygen'?'breathing O₂':'breathing',ax:452,ay:196,bx:622,by:274,al:'right',c:'#dfeaf0'},
+    {t:'O₂ sensor',v:'carotid · '+(d.uO<.05?'quiet':'firing '+Math.round(Math.min(300,d.uO*100))+'%'),ax:377,ay:240,bx:622,by:336,al:'right',c:C.spo2},
+    {t:'Heart',v:Math.round(d.HR)+' bpm',ax:392,ay:478,bx:622,by:452,al:'right',c:C.hr},
+    {t:'Stress nerves',s:'Nerves',v:rel<.05?'quiet':'firing '+Math.round(rel*100)+'%',ax:313,ay:560,bx:622,by:566,al:'right',c:'#FFD27A'},
+    {t:'Adrenal glands',s:'Adrenals',v:'adrenaline ×'+s.adr.toFixed(1),ax:278,ay:600,bx:18,by:612,al:'left',c:'#FFB547'}];
+  L.forEach(l=>{const w=narrow?124:150,h=narrow?30:36,X=l.al==='left'?l.bx:l.bx-w;const ex=l.al==='left'?X+w:X,ey=l.by+h/2;
+    x.strokeStyle='rgba(200,225,235,.4)';x.lineWidth=1;x.beginPath();x.moveTo(ex,ey);x.lineTo(l.ax,l.ay);x.stroke();x.fillStyle=l.c;x.beginPath();x.arc(l.ax,l.ay,2.6,0,TAU);x.fill();
+    x.fillStyle='rgba(7,14,20,.8)';rr(x,X,l.by,w,h,8);x.fill();x.strokeStyle=rgb(hex(l.c.startsWith('#')?l.c:'#dfeaf0'),.45);x.stroke();
+    if(narrow){txt(x,l.s||l.t,X+w/2,l.by+h/2,{al:'center',px:11.5,w:700,c:l.c});}
+    else{txt(x,l.t,X+10,l.by+12,{px:11,w:700,c:l.c,fs:false});txt(x,l.v,X+10,l.by+26,{px:10,w:500,c:C.ink2,fs:false});}});}
+
+/* ===================== zoom 1: air sac ===================== */
+const AS={mol:[],fx:[],rbc:Array.from({length:7},(_,i)=>({u:i/7}))};
+const CAP=[[196,226],[240,176],[276,120],[312,70],[362,30]];
+function drawAir(o,st,t,dtR){const x=o.x;x.clearRect(0,0,360,220);FS=clamp(.8/o.k,1,1.7);const {s,d}=st;const cx=122,cy=112,R=90;
+  // targets: counts scale with partial pressure
+  const want={o:clamp(Math.round(d.PA/11),0,48),c:clamp(Math.round(d.PC/3.6),0,26),n:clamp(Math.round((M.PD-d.PA-d.PC)/45),0,14)};
+  ['o','c','n'].forEach(k=>{const have=AS.mol.filter(m=>m.k===k&&!m.gone);if(have.length<want[k]){const a=Math.random()*TAU,r=Math.sqrt(Math.random())*R*.74;AS.mol.push({k,x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r,vx:0,vy:0,a:Math.random()*TAU,al:0});}else if(have.length>want[k])have[0].gone=true;});
+  // wall with capillary net
+  ball(x,cx,cy,R,'#d98b8e');const ig=x.createRadialGradient(cx-20,cy-24,8,cx,cy,R*.84);ig.addColorStop(0,'#1f5068');ig.addColorStop(1,'#0c2533');x.fillStyle=ig;x.beginPath();x.arc(cx,cy,R*.84,0,TAU);x.fill();
+  x.save();x.beginPath();x.arc(cx,cy,R,0,TAU);x.arc(cx,cy,R*.84,0,TAU,true);x.clip('evenodd');x.strokeStyle=blood((d.Sa+d.Sv)/2);x.lineWidth=3;for(let i=0;i<14;i++){const a=i/14*TAU;x.beginPath();x.arc(cx+Math.cos(a)*R*.92,cy+Math.sin(a)*R*.92,R*.18,a+1,a+4.2);x.stroke();}x.restore();
+  x.strokeStyle='rgba(255,236,230,.8)';x.lineWidth=1.5;x.beginPath();x.arc(cx,cy,R*.84,0,TAU);x.stroke();
+  // capillary running past, blood changes colour as it picks up O2
+  tube(x,CAP,26,blood(d.Sv),blood(d.Sa),true);const spd=d.Q/M.Q0;
+  AS.rbc.forEach(r=>{if(!RM)r.u=fr(r.u+spd*.12*dtR);const q=along(CAP,r.u);rbc(x,q[0],q[1],8,blood(lerp(d.Sv,d.Sa,Math.min(1,r.u*1.6))),q[3],.62);});
+  // molecules drift in the sac
+  AS.mol.forEach(m=>{if(!RM){m.vx+=(Math.random()-.5)*40*dtR;m.vy+=(Math.random()-.5)*40*dtR;m.vx*=.96;m.vy*=.96;m.x+=m.vx*dtR;m.y+=m.vy*dtR;m.a+=dtR*(m.k==='c'?1.2:2);}
+    const dx=m.x-cx,dy=m.y-cy,r=Math.hypot(dx,dy),lim=R*.76;if(r>lim){m.x=cx+dx/r*lim;m.y=cy+dy/r*lim;m.vx*=-.5;m.vy*=-.5;}
+    m.al=clamp(m.al+(m.gone?-3:3)*dtR,0,1);});
+  AS.mol=AS.mol.filter(m=>!(m.gone&&m.al<=0));
+  AS.mol.forEach(m=>{x.globalAlpha=m.al;if(m.k==='o')o2(x,m.x,m.y,1,m.a);else if(m.k==='c')co2m(x,m.x,m.y,.95,m.a);else n2(x,m.x,m.y,.9,m.a);});x.globalAlpha=1;
+  // flux across the wall: O2 into blood, CO2 out of it
+  if(!RM){AS.acc=(AS.acc||0)+Math.max(0,s.up||0)*dtR*.9;while(AS.acc>1){AS.acc--;AS.fx.push({k:'o',u:0});}AS.acc2=(AS.acc2||0)+Math.abs(s.ex||0)*dtR*.9;while(AS.acc2>1){AS.acc2--;AS.fx.push({k:'c',u:0,rev:(s.ex||0)<0});}}
+  AS.fx.forEach(f=>{f.u+=dtR*1.4;const a0=[cx+R*.5,cy+R*.45],a1=[cx+R*1.12,cy+R*.95];const p=f.k==='o'?[lerp(a0[0],a1[0],f.u),lerp(a0[1],a1[1],f.u)]:[lerp(a1[0]-8,a0[0]-6,f.u),lerp(a1[1]-12,a0[1]-10,f.u)];x.globalAlpha=Math.sin(Math.min(1,f.u)*Math.PI);if(f.k==='o')o2(x,p[0],p[1],.9,f.u*4);else co2m(x,p[0],p[1],.8,f.u*4);});x.globalAlpha=1;AS.fx=AS.fx.filter(f=>f.u<1).slice(-40);
+  // legend
+  const ly=208;o2(x,236,ly-40,1,0);txt(x,'O₂',246,ly-40,{px:10,c:C.ink2});co2m(x,286,ly-40,.9,0);txt(x,'CO₂',298,ly-40,{px:10,c:C.ink2});n2(x,236,ly-22,.9,0);txt(x,'N₂',246,ly-22,{px:10,c:C.ink2});
+  txt(x,Math.round(d.PA)+' mmHg O₂',22,16,{px:10,c:'#ff9a8a',w:700});txt(x,Math.round(d.PC)+' mmHg CO₂',22,30,{px:10,c:C.co2,w:700});}
+
+/* ===================== zoom 2: blood ===================== */
+const BL={cells:[[70,92,.1],[176,118,-.2],[284,88,.25]],co2:Array.from({length:30},(_,i)=>({x:(i*47)%360,y:30+(i*29)%130,a:i}))};
+function drawBlood(o,st,t,dtR){const x=o.x;x.clearRect(0,0,360,220);FS=clamp(.8/o.k,1,1.7);const {d}=st;const Sa=d.Sa;const bg=x.createLinearGradient(0,0,0,220);bg.addColorStop(0,'#2a1017');bg.addColorStop(1,'#14080c');x.fillStyle=bg;x.fillRect(0,0,360,160);
+  // dissolved CO2 in plasma
+  const nc=clamp(Math.round(d.PC/2.4),0,30);BL.co2.forEach((m,i)=>{if(!RM){m.x=(m.x+dtR*14)%360;m.a+=dtR;}if(i<nc)co2m(x,m.x,m.y+Math.sin(m.a)*4,.8,m.a*.6);});
+  // three red cells, 4 oxygen seats each (haemoglobin carries up to four O2)
+  const full=Math.round(Sa*12);BL.cells.forEach((c,i)=>{const bob=RM?0:Math.sin(t*1.3+i*2)*3;rbc(x,c[0],c[1]+bob,40,blood(Sa),c[2],.8);
+    for(let k=0;k<4;k++){const sx=c[0]+(k%2?13:-13),sy=c[1]+bob+(k<2?-10:10);x.fillStyle='rgba(20,6,10,.55)';x.beginPath();x.arc(sx,sy,7,0,TAU);x.fill();if(i*4+k<full)o2(x,sx,sy,1.05,.6);else{x.strokeStyle='rgba(255,210,210,.35)';x.lineWidth=1.2;x.beginPath();x.arc(sx,sy,5.5,0,TAU);x.stroke();}}});
+  txt(x,Math.round(Sa*100)+'% of seats hold O₂',12,16,{px:10,w:700,c:C.spo2});
+  // pH gauge
+  const X=v=>30+(v-7.0)/0.8*300,y=190;x.fillStyle='rgba(255,255,255,.06)';rr(x,30,y-7,300,14,7);x.fill();x.fillStyle='rgba(91,224,142,.35)';x.fillRect(X(7.35),y-7,X(7.45)-X(7.35),14);
+  x.fillStyle='rgba(255,123,82,.22)';x.fillRect(X(7.0)+4,y-7,X(7.35)-X(7.0)-4,14);x.fillStyle='rgba(183,162,255,.25)';x.fillRect(X(7.45),y-7,X(7.8)-X(7.45)-4,14);
+  [7.0,7.2,7.4,7.6,7.8].forEach(v=>txt(x,v.toFixed(1),X(v),y+16,{px:9,al:'center',c:C.mute}));txt(x,'acid',X(7.08),y-16,{px:9,al:'center',c:'#ff9d80'});txt(x,'alkaline',X(7.7),y-16,{px:9,al:'center',c:C.ph});
+  const px=X(clamp(d.pH,7.0,7.8));x.fillStyle=C.ink;x.beginPath();x.moveTo(px,y-10);x.lineTo(px-6,y-20);x.lineTo(px+6,y-20);x.fill();txt(x,'pH '+d.pH.toFixed(2),clamp(px,50,310),y-30,{px:10,w:700,al:'center',c:C.ph});}
+
+/* ===================== zoom 3: brain ===================== */
+const BR={neu:[[48,52],[118,172],[196,40],[250,176],[318,58],[330,168],[150,70],[72,160]].map((p,i)=>({x:p[0],y:p[1],a:i*1.7,f:0})),rbc:Array.from({length:9},(_,i)=>({u:i/9}))};
+const CAPB=Array.from({length:34},(_,i)=>{const X=-12+i*12;return [X,112+13*Math.sin(X/46)+5*Math.sin(X/17)];});
+/* ===================== zoom 4: an immune cell ===================== */
+const IM={tox:false,mol:Array.from({length:34},(_,i)=>({x:10+(i*67)%340,y:12+(i*41)%196,a:i*1.3,on:0})),out:[],lps:Array.from({length:12},(_,i)=>({a:i/12*TAU,r:84+(i%3)*10}))};
+const REC=Array.from({length:10},(_,i)=>{const a=-1.9+i*0.42;return {a};});
+function immOut(s){return {inf:1-0.6*s.brk,il10:1+2*s.brk};}
+function drawImm(o,st,t,dtR){const x=o.x;x.clearRect(0,0,360,220);FS=clamp(.8/o.k,1,1.7);const {s}=st;const bg=x.createLinearGradient(0,0,0,220);bg.addColorStop(0,'#241522');bg.addColorStop(1,'#140b14');x.fillStyle=bg;x.fillRect(0,0,360,220);
+  const cx=112,cy=112,R=62,out=immOut(s),bound=Math.min(REC.length,Math.round(clamp((s.adr-1)/(s.adr-1+3),0,1)*REC.length+.2*s.brk*REC.length));
+  // bacterial toxin fragments around the cell (when added)
+  if(IM.tox)IM.lps.forEach((l,i)=>{const a=l.a+(RM?0:t*.08),X=cx+Math.cos(a)*l.r,Y=cy+Math.sin(a)*l.r*.8;x.save();x.translate(X,Y);x.rotate(a*2);x.strokeStyle='#9fbf6a';x.lineWidth=3;x.lineCap='round';x.beginPath();x.moveTo(-6,0);x.lineTo(6,0);x.stroke();x.fillStyle='#d2e59a';x.beginPath();x.arc(6,0,2.4,0,TAU);x.fill();x.restore();});
+  // the cell: a macrophage with a kidney-shaped nucleus
+  x.beginPath();for(let i=0;i<=48;i++){const a=i/48*TAU,rr2=R*(1+.07*Math.sin(a*5+(RM?0:t*.7))+.04*Math.sin(a*3-(RM?0:t*.5)));const X=cx+Math.cos(a)*rr2,Y=cy+Math.sin(a)*rr2*.9;i?x.lineTo(X,Y):x.moveTo(X,Y);}x.closePath();
+  const cg=x.createRadialGradient(cx-18,cy-20,6,cx,cy,R);cg.addColorStop(0,'#eed7f5');cg.addColorStop(.7,'#b88fcf');cg.addColorStop(1,'#7c5a96');x.fillStyle=cg;x.fill();
+  // cAMP: the signal inside rises as receptors fill
+  glow(x,cx,cy,R*.9,'#FFB547',.12+.35*s.brk);
+  x.fillStyle='#5b3f8a';x.beginPath();x.ellipse(cx-8,cy+4,22,15,.4,0,TAU);x.fill();x.fillStyle='rgba(255,255,255,.12)';x.beginPath();x.ellipse(cx-14,cy-2,8,4,.4,0,TAU);x.fill();
+  for(let i=0;i<14;i++){const a=i*2.3,r=R*(.35+.3*((i*.37)%1));x.fillStyle='rgba(90,60,130,.45)';x.beginPath();x.arc(cx+Math.cos(a)*r,cy+Math.sin(a)*r*.9,2.2,0,TAU);x.fill();}
+  // beta-2 receptors on the surface; bound ones carry an adrenaline molecule
+  REC.forEach((r,i)=>{const X=cx+Math.cos(r.a)*R*1.02,Y=cy+Math.sin(r.a)*R*.92;x.save();x.translate(X,Y);x.rotate(r.a+Math.PI/2);x.strokeStyle='#e6d6ff';x.lineWidth=2;x.beginPath();x.moveTo(0,0);x.lineTo(0,-8);x.moveTo(0,-8);x.lineTo(-4,-12);x.moveTo(0,-8);x.lineTo(4,-12);x.stroke();if(i<bound)ball(x,0,-14,3.4,'#FFB547');x.restore();});
+  // free adrenaline drifting in the blood plasma
+  const nfree=clamp(Math.round((s.adr-1)*4),0,IM.mol.length);IM.mol.forEach((m,i)=>{if(!RM){m.x=(m.x+dtR*(10+i%5*3))%226;m.a+=dtR;}const Y=m.y+Math.sin(m.a)*5;if(Math.hypot(m.x-cx,Y-cy)<R+14||m.x>222)return;if(i<nfree)ball(x,m.x,Y,2.6,'#FFB547');});
+  // signals released (only when the toxin is there to respond to)
+  if(IM.tox&&!RM){IM.acc=(IM.acc||0)+dtR*9*out.inf;while(IM.acc>1){IM.acc--;IM.out.push({k:'i',u:0,a:-.6+Math.random()*1.2});}IM.acc2=(IM.acc2||0)+dtR*4*out.il10;while(IM.acc2>1){IM.acc2--;IM.out.push({k:'t',u:0,a:-.6+Math.random()*1.2});}}
+  IM.out.forEach(p=>{p.u+=dtR*.5;const X=cx+R*.9+p.u*52,Y=cy+Math.sin(p.a)*(18+p.u*62);x.globalAlpha=Math.min(1,(1-p.u)*3);ball(x,X,Y,3,p.k==='i'?'#ff5a5a':'#3FE0C5');x.globalAlpha=1;});IM.out=IM.out.filter(p=>p.u<1).slice(-80);
+  // meters: what the cell would release if the toxin arrived now
+  const bx=232,bw=116;txt(x,IM.tox?'released now':'if a toxin arrived',bx,20,{px:9.5,c:C.ink2,w:700});
+  [[out.inf,'inflammatory','#ff5a5a',Math.round(out.inf*100)+'%',1],[out.il10,'IL-10 (calming)','#3FE0C5','×'+out.il10.toFixed(1),3]].forEach(([v,lab,col,val,mx],i)=>{const y=40+i*44;txt(x,lab,bx,y,{px:9.5,c:col,w:700});x.fillStyle='rgba(255,255,255,.08)';rr(x,bx,y+9,bw,9,4.5);x.fill();x.fillStyle=col;rr(x,bx,y+9,Math.max(4,bw*clamp(v/mx,0,1)),9,4.5);x.fill();txt(x,val,bx+bw,y,{px:9.5,al:'right',c:C.ink,w:700});});
+  txt(x,bound+' of '+REC.length+' receptors hold adrenaline',12,208,{px:9.5,c:'#FFB547',w:700});}
+function drawBrainZ(o,st,t,dtR){const x=o.x;x.clearRect(0,0,360,220);FS=clamp(.8/o.k,1,1.7);const {d}=st;const dim=clamp((30-d.Pvb)/12,0,1),act=1-dim;
+  const bg=x.createLinearGradient(0,0,0,220);bg.addColorStop(0,mix('#3a2a36','#231c2a',dim));bg.addColorStop(1,mix('#2a1f2b','#16121c',dim));x.fillStyle=bg;x.fillRect(0,0,360,220);
+  for(let i=0;i<60;i++){x.fillStyle='rgba(255,220,230,.04)';x.beginPath();x.arc((i*71)%360,(i*37)%220,6+(i%5),0,TAU);x.fill();}
+  // neurons: bodies and branches; they fire less as oxygen falls
+  BR.neu.forEach((n,i)=>{x.strokeStyle=mix('#d9c8e8','#6b6078',dim);x.lineWidth=1.3;for(let k=0;k<5;k++){const a=n.a+k*1.25;x.beginPath();x.moveTo(n.x,n.y);x.quadraticCurveTo(n.x+Math.cos(a)*18,n.y+Math.sin(a)*18+6,n.x+Math.cos(a)*34,n.y+Math.sin(a)*30);x.stroke();}
+    if(!RM&&Math.random()<dtR*(0.2+2.6*act*act))n.f=1;n.f=Math.max(0,n.f-dtR*3);if(n.f>0)glow(x,n.x,n.y,26,'#a9f0ff',.75*n.f*act);ball(x,n.x,n.y,6.5,mix('#f0e2ff','#7d708e',dim));});
+  // capillary: wider and faster when brain blood flow is high
+  const w=lerp(10,30,clamp((d.cbf-.7)/1.1,0,1)),P=CAPB;tube(x,P,w,blood(d.bSa),blood(clamp(d.bSa-.25,.25,1)),true);
+  BR.rbc.forEach(r=>{if(!RM)r.u=fr(r.u+d.cbf*.1*dtR);const q=along(P,r.u);rbc(x,q[0],q[1],Math.max(4,w*.32),blood(lerp(d.bSa,d.bSa-.25,r.u)),q[3],.6);});
+  txt(x,'flow '+Math.round(d.cbf*100)+'%',12,16,{px:10,w:700,c:C.cbf});const st2=['clear','light-headed','fading','blackout'][d.brain];txt(x,'oxygen: '+st2,348,16,{px:10,w:700,al:'right',c:[C.ok,C.warn,C.urge,C.crit][d.brain]});
+  if(d.brain===3){x.fillStyle='rgba(0,0,0,.35)';x.fillRect(0,0,360,220);txt(x,'CONSCIOUSNESS LOST',180,200,{px:12,w:700,al:'center',c:C.crit});}}
+
+/* ===================== timeline ===================== */
+function drawTrace(o){const x=o.x,W=o.LW,H=o.LH;x.clearRect(0,0,W,H);x.fillStyle='#0b151d';x.fillRect(0,0,W,H);FS=clamp(1/o.k,1,2.2);
+  const L=86,R=W-16,T=10,B=H-30;const pre=sim?PRE[sim.o.pre].dur:PRE[opt.pre].dur;const tMin=-Math.max(pre,ghost&&ghost.length?-ghost[0].t:0);let tMax=90;[hist,ghost||[]].forEach(h=>{if(h.length)tMax=Math.max(tMax,h[h.length-1].t+8);});
+  const X=t=>L+(t-tMin)/(tMax-tMin)*(R-L);
+  const bands=[{k:'O₂ %',s:'O₂',lo:30,hi:100,c:C.spo2,f:p=>p.sp,f2:p=>p.sa,ref:[90]},{k:'CO₂ mmHg',s:'CO₂',lo:10,hi:70,c:C.co2,f:p=>p.pc,ref:[40]},{k:'Urge %',s:'Urge',lo:0,hi:320,c:C.urge,f:p=>p.u*100,ref:opt.limit>=3.15?[]:[opt.limit*100]},{k:'Heart bpm',s:'HR',lo:40,hi:100,c:C.hr,f:p=>p.hr,ref:[70]},{k:'Adrenaline',s:'Adr',lo:0,hi:10,c:'#FFB547',f:p=>p.a||1,ref:[1]}];
+  const bh=(B-T)/bands.length;
+  // before-hold shading and hold line
+  x.fillStyle='rgba(60,207,234,.06)';x.fillRect(X(tMin),T,X(0)-X(tMin),B-T);x.strokeStyle='rgba(228,238,241,.45)';x.setLineDash([4,4]);x.beginPath();x.moveTo(X(0),T);x.lineTo(X(0),B);x.stroke();x.setLineDash([]);
+  if(X(0)-X(tMin)>150)txt(x,'breathing before',X(tMin)+6,T+10,{px:10,c:C.mute});txt(x,'hold starts',X(0)+6,T+10,{px:10,c:C.ink2});
+  bands.forEach((b,i)=>{const y0=T+i*bh,y1=y0+bh-8,Y=v=>y1-(clamp(v,b.lo,b.hi)-b.lo)/(b.hi-b.lo)*(y1-y0);
+    x.strokeStyle='rgba(150,190,210,.12)';x.lineWidth=1;x.beginPath();x.moveTo(L,y1+4);x.lineTo(R,y1+4);x.stroke();
+    txt(x,W<900?b.s:b.k,L-8,y0+8,{px:10,al:'right',c:b.c,w:700});txt(x,String(b.hi),L-8,y0+22,{px:9,al:'right',c:C.mute});txt(x,String(b.lo),L-8,y1,{px:9,al:'right',c:C.mute});
+    b.ref.forEach(r=>{x.strokeStyle=i===2?'rgba(228,238,241,.55)':'rgba(150,190,210,.22)';x.setLineDash(i===2?[]:[3,4]);x.beginPath();x.moveTo(L,Y(r));x.lineTo(R,Y(r));x.stroke();x.setLineDash([]);if(i===2)txt(x,'your limit',R-4,Y(r)-7,{px:9,al:'right',c:C.ink2});});
+    const line=(h,f,col,w,dash,al)=>{if(!h.length)return;x.strokeStyle=col;x.globalAlpha=al;x.lineWidth=w;x.setLineDash(dash||[]);x.beginPath();h.forEach((p,j)=>{const px=X(p.t),py=Y(f(p));j?x.lineTo(px,py):x.moveTo(px,py);});x.stroke();x.setLineDash([]);x.globalAlpha=1;};
+    if(ghost)line(ghost,b.f,'#8aa0aa',1.4,[2,3],.55);
+    if(b.f2)line(hist,b.f2,b.c,1.3,[5,4],.55);line(hist,b.f,b.c,2.4,null,1);
+    if(hist.length){const p=hist[hist.length-1];x.fillStyle=b.c;x.beginPath();x.arc(X(p.t),Y(b.f(p)),3.6,0,TAU);x.fill();}});
+  // time axis
+  const step=tMax-tMin>400?60:tMax-tMin>160?30:15;for(let t=Math.ceil(tMin/step)*step;t<=tMax;t+=step){txt(x,(t<0?'−':'')+fmtT(Math.abs(t)),X(t),B+14,{px:10,al:'center',c:C.mute});}
+  // event markers
+  let lastX=-1e9,row=0;logItems.filter(e=>e.mark).forEach(e=>{const px=X(e.tt);row=px-lastX<110?(row+1)%2:0;lastX=px;x.strokeStyle=e.cls==='crit'?C.crit:'rgba(255,123,82,.6)';x.beginPath();x.moveTo(px,T+18);x.lineTo(px,B);x.stroke();txt(x,e.mark,px+4,T+26+row*13,{px:9.5,c:e.cls==='crit'?C.crit:C.urge,w:700});});}
+
+/* ===================== readouts, log, narration ===================== */
+const q=id=>$('#sm'+id);const E={vA:q('VA'),nA:q('NA'),vImm:q('VImm'),nImm:q('NImm'),tImm:q('TImm'),clock:q('Clock'),clockNote:q('ClockNote'),phase:q('Phase'),vSp:q('VSp'),nSp:q('NSp'),vC:q('VC'),nC:q('NC'),vPh:q('VPh'),nPh:q('NPh'),vHr:q('VHr'),nHr:q('NHr'),vCbf:q('VCbf'),nCbf:q('NCbf'),vBr:q('VBr'),pBrain:q('PBrain'),vU:q('VU'),uC:q('UC'),uO:q('UO'),uM:q('UM'),uLim:q('ULim'),tAir:q('TAir'),tBlood:q('TBlood'),tBrain:q('TBrain'),bCo2:q('BCo2'),mCo2:q('MCo2'),dCo2:q('DCo2'),bO2:q('BO2'),mO2:q('MO2'),bVoc:q('BVoc'),mVoc:q('MVoc'),log:q('Log'),ans:q('Ans'),ghostNote:q('Ghost')};
+function logEv(key,tt,html,cls,mark){if(!sim||sim.ev[key])return;sim.ev[key]=1;logItems.push({tt,html,cls,mark});const li=document.createElement('li');if(cls)li.className=cls;li.innerHTML=`<time>${tt<0?'−':''}${fmtT(Math.abs(tt))}</time><span>${html}</span>`;const em=E.log.querySelector('.empty');if(em)em.remove();E.log.appendChild(li);E.log.scrollTop=E.log.scrollHeight;}
+function watch(s,d){const tt=s.tHold==null?s.t-PRE[s.o.pre].dur:s.t-s.tHold;
+  if(s.adr>2)logEv('adr2',tt,`<b>Fight-or-flight nerves fire and the adrenal glands release adrenaline</b> (×${s.adr.toFixed(1)} resting). ${s.phase==='pre'?'Fast breathing is a stress in itself.':'Low oxygen sensed in the neck drives it.'}`,'hot','adrenaline');
+  if(s.adr>3&&s.phase!=='hold')logEv('adr3',tt,`<b>Adrenaline speeds the heart (${Math.round(d.HR)} bpm)</b> and relaxes airway muscle. Adrenergic nerves help set airway tone <a class="src" href="#src-r04">R04 §II.C</a>.`);
+  if(s.adr>3&&s.phase==='hold')logEv('adr3h',tt,`<b>Adrenaline keeps rising (×${s.adr.toFixed(1)})</b> as oxygen falls, while the dive response holds the heart slow.`);
+  if(s.brk>.3)logEv('brk',tt,`<b>Immune cells' β2 receptors are filling with adrenaline.</b> If a bacterial toxin arrived now, they'd send fewer inflammatory signals and more IL-10, the pattern seen in trained practitioners (Kox et al. 2014).`);
+  if(s.phase==='pre'){if(s.o.pre==='deep'&&d.PC<30)logEv('lowco2',tt,`<b>CO₂ is being blown off.</b> Blood CO₂ ${Math.round(d.PC)} mmHg, pH ${d.pH.toFixed(2)}. Blood turns alkaline: tingling fingers and lips.`);
+    if(s.o.pre==='deep'&&d.brain>=1)logEv('lh',tt,`<b>Light-headed.</b> Low CO₂ narrows brain blood vessels, and alkaline blood grips its oxygen tighter (the Bohr effect).`,'hot');
+    if(s.o.pre==='oxygen'&&d.PA>400)logEv('n2',tt,`<b>Nitrogen is washing out</b> of the lungs; the air sacs fill with oxygen (${Math.round(d.PA)} mmHg).`);return;}
+  if(s.phase==='hold'){logEv('start',0,`<b>Hold starts</b> with lungs ${LUNG_NAME[s.o.lungs]} (${(s.Vh/1000).toFixed(1)} L).`,null);
+    if(tt>12&&s.ex!=null&&Math.abs(s.ex)<0.4)logEv('co2eq',tt,`<b>CO₂ stops leaving the blood.</b> The trapped air has caught up with it, so CO₂ now builds up throughout the body.`);
+    if(d.HR<M.HR0*.9)logEv('brady',tt,`<b>Heart slows to ${Math.round(d.HR)} bpm.</b> This is the dive response${s.o.cold?', stronger with a cold, wet face':''}.`);
+    if(d.urge>0.35)logEv('urge',tt,`<b>First urge to breathe.</b> ${d.uC>=d.uO?'CO₂ sensors in the brainstem':'O₂ sensors in the carotid bodies'} start to fire.`,'hot','urge');
+    if(s.struggle>0.02)logEv('strug',tt,`<b>The diaphragm starts twitching</b> on its own (the "struggle phase").`,'hot','twitching');
+    if(s.sp<90)logEv('sp90',tt,`<b>SpO₂ below 90%.</b> The fingertip reading is about 14 s behind the blood leaving the lungs.`,'hot');
+    if(s.hbf>1.02)logEv('spleen',tt,`<b>The spleen squeezes out extra red cells:</b> +${Math.round((s.hbf-1)*100)}% haemoglobin so far, a trained diver's trick.`);
+    if(d.PC>75)logEv('narc',tt,`<b>CO₂ is now high enough to start sedating the brain</b> (${Math.round(d.PC)} mmHg).`,'hot');
+    if(d.brain>=1&&d.bSa<.9)logEv('blh',tt,`<b>Light-headed.</b> The brain is running low on oxygen.`,'hot');if(d.brain>=2)logEv('bf',tt,`<b>Vision narrows, thinking slows.</b> Close to blacking out.`,'crit');}
+  if(s.outcome&&!s.ev.end){const ht=s.hold;if(s.outcome==='blackout'){logEv('end',ht,`<b>Blackout at ${fmtT(ht)}.</b> Oxygen ran out before the urge made you stop. On land the body restarts breathing by itself; in water, this is how people drown.`,'crit','blackout');}
+    else logEv('end',ht,`<b>${s.outcome==='chose'?'You breathe':'You give in'} at ${fmtT(ht)}.</b> SpO₂ at the finger ${Math.round(s.sp)}%, blood CO₂ ${Math.round(d.PC)} mmHg.`,'hot',s.outcome==='chose'?'breathe':'give in');
+    last={out:s.outcome,hold:ht,sp:s.sp};revealPredict();}
+  if(s.phase==='recover'&&s.tEnd!=null){s.minSp=Math.min(s.minSp==null?100:s.minSp,s.sp);if(s.t-s.tEnd>16&&!s.ev.dip)logEv('dip',tt,`<b>SpO₂ bottomed at ${Math.round(s.minSp)}% after you started breathing.</b> Oxygen-poor blood was still on its way to the finger and brain. That's why freedivers can black out just after surfacing.`,s.minSp<70?'crit':'hot');}}
+function level(v,ok,warn){return v<ok?'':v<warn?'warn':'crit';}
+function readouts(st){const {s,d}=st;const idle=s.phase==='idle';
+  const io=immOut(s);E.vA.innerHTML='×'+s.adr.toFixed(1);E.nA.textContent=s.adr<1.3?'resting level':s.sym>.15?'rising: fight-or-flight':'fading (lasts minutes)';
+  E.vImm.innerHTML=Math.round(io.inf*100)+'<small>%</small>';E.nImm.textContent=s.brk<.05?'normal response':'IL-10 ×'+io.il10.toFixed(1)+' if challenged';
+  E.tImm.innerHTML=s.brk<.05&&s.adr<1.3?`Immune cells carry <b>β2 receptors</b> for adrenaline, and at rest few are occupied. ${IM.tox?'Facing the toxin, the cell sends out its full inflammatory signal.':'Add the toxin to see the normal response, then compare after fast breathing.'}`
+    :`<b>Adrenaline fills the β2 receptors,</b> and the signal inside the cell turns inflammatory signals down and IL-10 up. ${IM.tox?`Facing the toxin, it releases inflammatory signals at ${Math.round(io.inf*100)}% and IL-10 at ×${io.il10.toFixed(1)}.`:`If a toxin arrived now: ${Math.round(io.inf*100)}% inflammatory signals, IL-10 ×${io.il10.toFixed(1)}.`} Direction as in Kox et al. 2014; sizes illustrative. The brake outlasts the adrenaline itself.`;
+  E.clock.textContent=fmtT(s.phase==='hold'?s.hold:s.outcome?s.tEnd-s.tHold:0);
+  E.phase.className='sm-phase'+(s.phase==='hold'?' hold':s.phase==='idle'?'':' breathe');E.phase.innerHTML='<i></i>'+({idle:'Resting',pre:PRE_NAME[s.o.pre],hold:'Holding',recover:'Breathing again'}[s.phase]);
+  E.clockNote.textContent=idle?(done?'Press Start to try again, or change a setting.':'Press Start. The body breathes normally until then.'):s.phase==='pre'?`Breathing before the hold: ${fmtT(PRE[s.o.pre].dur-s.t)} left`:s.phase==='hold'?(opt.limit>=3.15?'No limit set: holding until something gives.':`You'll give in at ${Math.round(opt.limit*100)}% urge, or press Breathe now.`):s.outcome==='blackout'?'Blacked out. Breathing restarts on its own.':'Breathing again. Watch SpO₂ keep falling for a few seconds.';
+  E.vSp.innerHTML=Math.round(s.sp)+'<small>%</small>';E.nSp.textContent=s.sp<60?'dangerously low':s.sp<80?'very low':s.sp<90?'low':'fingertip, ~14 s behind';
+  E.vC.innerHTML=Math.round(d.PC)+'<small>mmHg</small>';E.nC.textContent=d.PC<33?'low: blown off':d.PC>46?'high: building up':'normal';
+  E.vPh.textContent=d.pH.toFixed(2);E.nPh.textContent=d.pH>7.45?'alkaline':d.pH<7.35?'acidic':'normal';
+  E.vHr.textContent=Math.round(d.HR);E.nHr.textContent=d.HR<M.HR0*.9?'slowed: dive response':d.HR>M.HR0*1.05?'raised: recovering':'resting';
+  E.vCbf.innerHTML=Math.round(d.cbf*100)+'<small>%</small>';E.nCbf.textContent=d.cbf<.92?'narrowed by low CO₂':d.cbf>1.1?'widened: CO₂ high / O₂ low':'normal';
+  E.vBr.innerHTML=Math.round(d.Pvb)+'<small>mmHg</small>';E.pBrain.textContent=['Clear','Light-headed','Fading','Blackout'][d.brain];E.pBrain.className='sm-pill'+['',' warn',' crit',' crit'][d.brain];
+  const u=(s.phase==='hold'||s.phase==='recover')?d.urge:0,sum=Math.max(d.urge,1e-6),w=v=>clamp(v/3.2*100,0,100);E.vU.textContent=Math.round(Math.min(u,9.99)*100)+'%';const ucw=w(u)*d.uC/sum,uow=w(u)*d.uO/sum,umw=w(u)*d.uM/sum;
+  E.uC.style.left='0%';E.uC.style.width=ucw+'%';E.uO.style.left=ucw+'%';E.uO.style.width=uow+'%';E.uM.style.left=(ucw+uow)+'%';E.uM.style.width=umw+'%';E.uLim.style.left=w(opt.limit*100/100)+'%';E.uLim.style.display=opt.limit>=3.15?'none':'';
+  // breath card
+  const co2p=d.PC/M.PD*100,o2p=d.PA/M.PD*100;E.bCo2.textContent=co2p.toFixed(1)+'%';E.mCo2.style.width=clamp(co2p/10*100,0,100)+'%';E.bO2.textContent=o2p.toFixed(0)+'%';E.mO2.style.width=clamp(o2p/100*100,0,100)+'%';
+  E.dCo2.textContent=s.phase==='hold'?'Climbing as CO₂ from your blood fills the held air.':d.PC<33?'Below the usual 5%: fast breathing has blown CO₂ off.':'About 5% at rest. It climbs while the air sits in your lungs.';
+  const vf=s.phase==='hold'?1+1.5*(1-Math.exp(-s.hold/40)):s.phase==='recover'?1+1.5*(1-Math.exp(-(s.tEnd-s.tHold)/40))*Math.exp(-(s.t-s.tEnd)/8):s.phase==='pre'&&s.o.pre==='deep'?0.85:1;E.bVoc.textContent=vf.toFixed(1)+'×';E.mVoc.style.width=clamp((vf-.5)/2.5*100,0,100)+'%';
+  // zoom captions
+  E.tAir.innerHTML=s.phase==='hold'?(Math.abs(s.ex||0)<.4?`<b>O₂ keeps crossing into the blood; CO₂ has stopped leaving.</b> The held air has filled with CO₂ to the same level as the blood, so there's nowhere for more to go.`:`<b>O₂ moves into the blood and CO₂ moves out</b>, until the held air catches up with the blood (${Math.round(d.PC)} mmHg CO₂ now).`)
+    :s.phase==='pre'&&s.o.pre==='oxygen'?`<b>Pure oxygen replaces nitrogen</b> in the air sacs, so the lungs become a much bigger oxygen store for the hold.`:s.phase==='pre'&&s.o.pre==='deep'?`<b>Fast breathing flushes CO₂ out</b> of the air sacs. Oxygen barely rises, because the blood was already nearly full.`:`Every breath refreshes the air sacs. Oxygen crosses into the capillary and CO₂ crosses out, through a wall thinner than a soap bubble.`;
+  E.tBlood.innerHTML=d.pH>7.45?`<b>Alkaline blood (pH ${d.pH.toFixed(2)})</b> makes haemoglobin grip its O₂ harder (the Bohr effect), so tissues get it less easily.`:d.pH<7.35?`<b>CO₂ makes the blood acidic (pH ${d.pH.toFixed(2)}).</b> That loosens haemoglobin's grip, releasing O₂ where it's needed.`:`Each red cell carries haemoglobin with four O₂ seats. <b>${Math.round(d.Sa*100)}% are filled</b> in blood leaving the lungs.`;
+  E.tBrain.innerHTML=d.brain===3?`<b>Blackout.</b> Brain cells stop firing when the oxygen left in their blood falls too low.`:d.cbf<.92?`<b>Low CO₂ narrows brain vessels</b> (flow ${Math.round(d.cbf*100)}%). With less blood arriving, the brain gets less oxygen, so you feel light-headed.`:d.cbf>1.1?`<b>Brain vessels widen</b> (flow ${Math.round(d.cbf*100)}%) as CO₂ climbs and oxygen falls. This protects the brain for a while.`:`The brain uses about a fifth of your oxygen and can't store any. Its blood flow is tuned by CO₂.`;}
+
+/* ===================== predict ===================== */
+$$('.sm-predict .sm-chip').forEach(b=>b.addEventListener('click',()=>{predict=b.dataset.p;$$('.sm-predict .sm-chip').forEach(c=>c.setAttribute('aria-pressed',String(c===b)));if(last)revealPredict();}));
+function revealPredict(){if(!last)return;const real=last.out==='blackout'?'oxygen':'patience';const g=predict?(predict===real?'You called it. ':'Not this time. '):'';
+  E.ans.innerHTML=g+(real==='oxygen'?`Oxygen ran out first: the urge never reached your limit before the brain did. Fast breathing first makes this much more likely.`:`The urge stopped you${last.out==='chose'?' (you pressed Breathe now)':''} while SpO₂ at the finger was still ${Math.round(last.sp)}%. CO₂, not oxygen, set the limit.`);}
+
+/* ===================== controls ===================== */
+function setSeg(k,v){$$(`.sm-seg[data-k="${k}"] button`).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===String(v))));}
+$$('.sm-seg').forEach(seg=>seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;const k=seg.dataset.k;if(k==='speed'){speed=+b.dataset.v;setSeg(k,b.dataset.v);return;}if(running)return;opt[k]=b.dataset.v;setSeg(k,b.dataset.v);if(k==='who')setLim(Math.round(WHO[opt.who].limit*100));}));
+const lim=$('#smLim'),limOut=$('#smLimOut');function setLim(v){lim.value=v;opt.limit=v/100;limOut.textContent=v>=320?'never':v+'%';if(sim)sim.o.limit=opt.limit;}
+lim.addEventListener('input',()=>setLim(+lim.value));$('#smNever').addEventListener('click',()=>setLim(320));
+$('#smCold').addEventListener('change',e=>{if(running){e.target.checked=opt.cold;return;}opt.cold=e.target.checked;});
+function lock(on){$$('.sm-seg[data-k="pre"] button,.sm-seg[data-k="lungs"] button,.sm-seg[data-k="who"] button').forEach(b=>b.disabled=on);$('#smCold').disabled=on;$('#smGo').disabled=on;$('#smBreathe').disabled=true;}
+$('#smGo').addEventListener('click',()=>{if(hist.length&&sim&&sim.tEnd!=null){ghost=hist;ghostLabel=`Grey dotted line: your previous run (${PRE_NAME[sim.o.pre].toLowerCase()}, ${LUNG_NAME[sim.o.lungs]}, ${WHO_NAME[sim.o.who]}${sim.o.cold?', cold water':''}), held ${fmtT(sim.tEnd-sim.tHold)}.`;}
+  const carry=sim&&done?{adr:sim.adr,brk:sim.brk}:null;round=carry?round+1:1;sim=init({...opt});if(carry){sim.adr=carry.adr;sim.brk=carry.brk;}hist=[];logItems=[];E.log.innerHTML='<li class="empty">Events appear here as the hold runs.</li>';E.ans.textContent='';last=null;running=true;done=false;AS.mol=[];lock(true);E.ghostNote.textContent=ghostLabel;if(carry&&carry.brk>.03)logEv('carry',-PRE[opt.pre].dur,`<b>Round ${round}.</b> Adrenaline (×${carry.adr.toFixed(1)}) and the immune brake carry over from the last round, as in a Wim Hof session of 3–4 rounds.`);});
+$('#smBreathe').addEventListener('click',()=>{if(sim&&sim.phase==='hold'){forceBreath(sim);}});
+$('#smTox').addEventListener('click',e=>{IM.tox=!IM.tox;e.currentTarget.setAttribute('aria-pressed',String(IM.tox));e.currentTarget.textContent=IM.tox?'Remove the toxin':'Add bacterial toxin';IM.out=[];});
+$('#smReset').addEventListener('click',()=>{round=0;sim=null;running=false;done=false;hist=[];logItems=[];E.log.innerHTML='<li class="empty">Events appear here as the hold runs.</li>';E.ans.textContent='';last=null;lock(false);AS.mol=[];});
+E.ghostNote.textContent=ghostLabel;
+
+/* ===================== loop ===================== */
+let lastT=performance.now(),acc=0,view={dtR:0},visT=0,visible=false,raf=0;
+function kick(){if(!raf&&visible&&!document.hidden){lastT=performance.now();raf=requestAnimationFrame(frame);}}
+if('IntersectionObserver' in window){new IntersectionObserver(es=>{visible=es.some(e=>e.isIntersecting);kick();}).observe(ROOT);}else{visible=true;}
+document.addEventListener('visibilitychange',kick);
+function frame(now){raf=0;if(!visible||document.hidden)return;if(CV.body.c.clientWidth!==CV.body.w0)fitAll();const dtR=Math.min(.05,(now-lastT)/1000);lastT=now;visT+=dtR;view.dtR=dtR;
+  let st;if(sim){if(running){acc+=dtR*speed;let n=0;while(acc>=0.05&&n<400){const d=step(sim,0.05);acc-=0.05;n++;if(Math.round(sim.t/0.05)%5===0)hist.push(snap(sim,d));watch(sim,d);
+        if(sim.phase==='recover'&&sim.t-sim.tEnd>60){running=false;done=true;lock(false);break;}}
+      $('#smBreathe').disabled=sim.phase!=='hold';}
+    st={s:sim,d:derived(sim)};}else{st=resting();}
+  const bt=RM?0:visT;drawBody(CV.body,st,bt,view);drawAir(CV.air,st,bt,RM?0:dtR);drawBlood(CV.blood,st,bt,RM?0:dtR);drawBrainZ(CV.brain,st,bt,RM?0:dtR);drawImm(CV.imm,st,bt,RM?0:dtR);drawTrace(CV.trace);readouts(st);
+  raf=requestAnimationFrame(frame);}
+kick();
+})();
+
+</script>
+<script>
 (function(){
 'use strict';
 const U=window.__feno.util,SC=window.__feno.scenes,S2=window.__feno.scenes2,UI=window.__feno.ui,DATA=window.__feno.data;
@@ -7846,7 +8540,7 @@ function initWalk(){const B=$('#snBtn'),P=$('#snPanel');if(!B)return;
   document.addEventListener('feno:layout',()=>{if(VIEW==='glossary')walkSetup('glossary');});}
 
 /* ---------- router ---------- */
-const views=$$('.view'),byName={};views.forEach(v=>byName[v.dataset.view]=v);const names={home:'Essentials',glossary:'Glossary',sources:'Sources',games:'Games'};DATA.CH.forEach((c,i)=>names[c.k]=`${i+1}. ${c.n}`);
+const views=$$('.view'),byName={};views.forEach(v=>byName[v.dataset.view]=v);const names={home:'Essentials',glossary:'Glossary',sources:'Sources',games:'Games',sim:'Breath-hold simulator'};DATA.CH.forEach((c,i)=>names[c.k]=`${i+1}. ${c.n}`);
 let cur=null;
 function show(name){if(!byName[name])name='home';if(cur===name)return false;views.forEach(v=>{v.hidden=v.dataset.view!==name;});cur=name;
   navState(name);
